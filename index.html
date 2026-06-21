@@ -198,14 +198,14 @@
     <span></span><span></span><span></span>
   </div>
   <ul class="nav-links" id="nav-links">
-    <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('home')" id="nav-home">Home</a></li>
     <li><a href="#" onclick="showPage('book')" id="nav-book">Don't Be an Ask-Hole</a></li>
     <li id="nav-boomerang-li" style="display:none"><a href="#" onclick="showPage('boomerang')" id="nav-boomerang">Free Chapter</a></li>
   </ul>
 </nav>
 
 <!-- HOME -->
-<div id="page-home" class="page active">
+<div id="page-home" class="page">
 
   <section class="featured-book-section">
     <p class="section-label">Now Available</p>
@@ -478,7 +478,7 @@ function toggleNav() {
   document.getElementById('nav-links').classList.toggle('open');
 }
 
-function showPage(name) {
+function showPage(name, pushState) {
   document.getElementById('nav-links').classList.remove('open');
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
@@ -486,6 +486,19 @@ function showPage(name) {
   const el = document.getElementById('nav-' + name);
   if (el) el.classList.add('active');
   document.getElementById('nav-boomerang-li').style.display = name === 'boomerang' ? '' : 'none';
+  if (pushState !== false) history.pushState({page: name}, '', '#' + name);
   window.scrollTo(0, 0);
 }
+
+window.addEventListener('popstate', function(e) {
+  const page = (e.state && e.state.page) || hashPage();
+  showPage(page, false);
+});
+
+function hashPage() {
+  const h = location.hash.replace('#', '');
+  return ['home','book','boomerang'].includes(h) ? h : 'home';
+}
+
+showPage(hashPage(), false);
 </script>
