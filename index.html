@@ -141,10 +141,15 @@
   .book-final-cta p { font-size: 0.85rem; color: rgba(255,255,255,0.88); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.7; }
   .cta-group { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
 
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); }
+
   @media (max-width: 640px) {
-    .nav-brand { font-size: 0.95rem; }
-    .nav-links { gap: 0.8rem; }
-    .nav-links a { font-size: 0.65rem; }
+    .nav-brand { font-size: 0.9rem; max-width: 55%; line-height: 1.2; }
+    .nav-hamburger { display: flex; }
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--navy-dark); padding: 1rem 2rem; gap: 1rem; z-index: 99; }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 0.8rem; padding: 0.3rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
 
     .featured-book-card { grid-template-columns: 1fr; border-left: none; border-top: 5px solid var(--crimson-dark); }
     .featured-cover-img { max-width: 220px; margin: 1.5rem auto 0; }
@@ -168,7 +173,10 @@
 
 <nav>
   <div class="nav-brand" onclick="showPage('home')">DEENA CHADWICK, THE COMMONSENSICAL BA</div>
-  <ul class="nav-links">
+  <div class="nav-hamburger" onclick="toggleNav()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
     <li><a href="#" onclick="showPage('book')" id="nav-book">Don't Be an Ask-Hole</a></li>
     <li><a href="#">The Series</a></li>
@@ -352,7 +360,12 @@ document.getElementById('about-photo').src = 'images/deena_headshot.jpg';
  document.getElementById('home-book-cover'),
  document.getElementById('book-page-cover')].forEach(el => { if(el) el.src = 'images/askhole_bookcover_3d.png'; });
 
+function toggleNav() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
 function showPage(name) {
+  document.getElementById('nav-links').classList.remove('open');
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
