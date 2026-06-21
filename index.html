@@ -144,6 +144,27 @@
   .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
   .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); }
 
+  /* BOOMERANG CHAPTER PAGE */
+  .chapter-hero { background: var(--navy); padding: 2.5rem 2rem; text-align: center; }
+  .chapter-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .chapter-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: white; letter-spacing: 0.04em; line-height: 1.05; margin-bottom: 0.4rem; }
+  .chapter-title span { color: var(--crimson); }
+  .chapter-subtitle { font-family: 'Lora', serif; font-style: italic; font-size: 1rem; color: #aac4cf; margin-bottom: 1.5rem; }
+  .chapter-body { max-width: 720px; margin: 0 auto; padding: 3rem 2rem; }
+  .chapter-body p { font-size: 0.92rem; line-height: 1.85; color: var(--text-mid); margin-bottom: 1.2rem; }
+  .chapter-body h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--navy-dark); letter-spacing: 0.04em; margin: 2.2rem 0 0.8rem; }
+  .chapter-pull { background: var(--off-white); border-left: 4px solid var(--gold); padding: 1rem 1.4rem; margin: 1.8rem 0; }
+  .chapter-pull p { font-family: 'Lora', serif; font-style: italic; font-size: 0.95rem; color: var(--navy-dark); line-height: 1.7; margin: 0; }
+  .chapter-box { background: white; border-top: 3px solid var(--crimson); padding: 1.2rem 1.4rem; margin: 1.5rem 0; }
+  .chapter-box .box-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--crimson); margin-bottom: 0.5rem; }
+  .chapter-box p { margin-bottom: 0.6rem; }
+  .chapter-box p:last-child { margin-bottom: 0; }
+  .chapter-bullet { padding-left: 1.2rem; margin-bottom: 1rem; }
+  .chapter-bullet li { font-size: 0.92rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 0.5rem; }
+  .chapter-cta-bar { background: var(--crimson); padding: 2.5rem 2rem; text-align: center; }
+  .chapter-cta-bar h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: white; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .chapter-cta-bar p { font-size: 0.85rem; color: rgba(255,255,255,0.85); max-width: 480px; margin: 0 auto 1.2rem; line-height: 1.6; }
+
   @media (max-width: 640px) {
     .nav-brand { font-size: 0.9rem; max-width: 55%; line-height: 1.2; }
     .nav-hamburger { display: flex; }
@@ -179,6 +200,7 @@
   <ul class="nav-links" id="nav-links">
     <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
     <li><a href="#" onclick="showPage('book')" id="nav-book">Don't Be an Ask-Hole</a></li>
+    <li><a href="#" onclick="showPage('boomerang')" id="nav-boomerang">Free Chapter</a></li>
     <li><a href="#">The Series</a></li>
     <li><a href="#">Speaking</a></li>
     <li><a href="#">Contact</a></li>
@@ -250,7 +272,7 @@
         <p style="font-size:0.8rem;color:#aac4cf;margin-bottom:1.2rem;line-height:1.6;">By Deena Chadwick · The CommonSensical BA</p>
         <div class="book-hero-ctas">
           <a class="btn-primary" href="https://www.amazon.com/dp/B0H67WL24V" target="_blank">Get the Book</a>
-          <button class="btn-gold">Read the Boomerang Chapter Free</button>
+          <button class="btn-gold" onclick="showPage('boomerang')">Read the Boomerang Chapter Free</button>
         </div>
       </div>
       <div class="book-cover-display">
@@ -274,7 +296,7 @@
 
       <div class="hook-ctas">
         <button class="btn-primary">Get the Book</button>
-        <button class="btn-gold" style="color:white;">Read the Boomerang Chapter Free</button>
+        <button class="btn-gold" style="color:white;" onclick="showPage('boomerang')">Read the Boomerang Chapter Free</button>
       </div>
     </div>
   </section>
@@ -337,7 +359,7 @@
       </div>
     </div>
     <div style="text-align:center;margin-top:2rem;">
-      <button class="btn-gold">Read the Boomerang Chapter Free</button>
+      <button class="btn-gold" onclick="showPage('boomerang')">Read the Boomerang Chapter Free</button>
     </div>
   </section>
 
@@ -346,7 +368,101 @@
     <p>Get the book that names the patterns, tells the real stories, and gives you the tools to recognize, respond to — and stop being — an Ask-Hole. In every conversation, meeting, survey, and AI prompt.</p>
     <div class="cta-group">
       <a class="btn-white" href="https://www.amazon.com/dp/B0H67WL24V" target="_blank">Get the Book on Amazon</a>
-      <button class="btn-outline-white">Read the Boomerang Chapter Free</button>
+      <button class="btn-outline-white" onclick="showPage('boomerang')">Read the Boomerang Chapter Free</button>
+    </div>
+  </section>
+
+  <footer>© 2026 Deena Chadwick · The CommonSensical BA &nbsp;|&nbsp; deena.chadwick@commonsensicalba.com &nbsp;|&nbsp; @commonsense_ba</footer>
+</div>
+
+<!-- BOOMERANG CHAPTER PAGE -->
+<div id="page-boomerang" class="page">
+
+  <section class="chapter-hero">
+    <p class="chapter-eyebrow">The Bridge · Free Chapter</p>
+    <h1 class="chapter-title">The Question <span>Boomerang</span></h1>
+    <p class="chapter-subtitle">The Returned Question — "I don't know — what do you want?"</p>
+    <button class="btn-gold" onclick="showPage('book')">← Back to the Book</button>
+  </section>
+
+  <div class="chapter-body">
+    <p>Jake and Sarah have had the same conversation roughly four thousand times. It goes like this:</p>
+    <div class="chapter-pull"><p>"What do you want for dinner, honey?"<br>"I don't know — what do you want?"<br>"I asked you first."<br>"Well, I'm good with whatever. What sounds good to you?"</p></div>
+    <p>And around it goes, the question sailing back and forth between them like a boomerang neither one will catch, until somebody finally gives up and they end up at the same Mexican place they always end up at, a little hungrier and a little more annoyed than they needed to be. Nobody was being difficult. Nobody was fighting. They were both, in fact, trying to be generous — each one wanting to let the other choose. And that mutual generosity produced a small, stupid stalemate, because the one thing neither of them would do is the thing the question actually asked for: put an answer on the table.</p>
+    <p>You have lived this. Everyone has lived this. It's the most harmless possible version of the archetype, and that's exactly why it's the perfect place to start — because the harmless dinner version and the costly workplace version run on the exact same move. Somebody asks you a question, and instead of answering it, you hand it right back.</p>
+    <p>That's the Question Boomerang. And the reason it's so easy to miss as an Ask-Hole move is that it usually doesn't feel like one. It feels polite. It feels like deference — like you're being easy-going, giving the other person the lead, declining to impose. But when someone genuinely asked for your answer, returning their own question to them isn't generosity. It's a withheld answer wearing generosity's clothes.</p>
+
+    <h2>What a Question Boomerang Is</h2>
+    <p>A Question Boomerang is someone who, when you ask them a question, answers with a question of their own — handing yours right back instead of putting an answer on the table. You threw something to them; it came straight back to you. That's the whole move, and the boomerang is the perfect image for it, because a boomerang, by design, returns to the person who threw it.</p>
+    <p>This is its own distinct species, and it's worth being clear about how it differs from the others, because the surface behavior — a question coming at you — can look like several archetypes at once. The Rhetorical Questioner asks a question they don't want answered, to make a point. The Manipulative Questioner asks a question to steer you somewhere. The Question Boomerang does neither. They aren't making a point or steering you — they're avoiding answering the one you asked, by reflecting it back. Where every other archetype in this book misuses a question they're asking, the Boomerang misuses the question you asked, by refusing to catch it.</p>
+    <p>And the motives run across a real range — from a politician's practiced dodge to the gentlest, most well-meaning deference. The intentional end is the smallest part of it. Far more common, and far more interesting, are the people who boomerang without any wish to evade:</p>
+    <ul class="chapter-bullet">
+      <li><strong>The deferrer.</strong> "Whatever you think is best." They hand the question back out of humility or a genuine wish not to overstep. They think they're being accommodating. They are, in fact, declining to help.</li>
+      <li><strong>The self-doubter.</strong> Someone with a touch of imposter syndrome who returns the question because they don't trust their own answer — safer to echo it back than to risk being wrong out loud.</li>
+      <li><strong>The peacekeeper.</strong> The one who just wants everyone happy and is terrified of being the controlling person in the room, so they refuse to plant a flag on anything. Jake and Sarah are both running this one over dinner.</li>
+      <li><strong>The dodger.</strong> The intentional version — the person who answers a question with a question precisely to avoid committing to anything that could later be held against them. Rarer in daily life, common in interviews and politics.</li>
+    </ul>
+    <p>The first three are the warm, unintentional offenders — the same family as the other unintentional archetypes. They'd be startled to learn that their easygoing deference was costing anyone anything. But it does.</p>
+
+    <h2>The Tool They're Misusing: The Returned Question</h2>
+    <p>Mechanically, the Boomerang misuses one of conversation's genuinely useful moves: answering a question with a question. Done well, that's not evasion at all — it's clarification. "What should we do about the budget?" answered with "which budget — the project one or the department one?" is a perfectly good return, because it narrows toward an answer. A good teacher does it constantly: "what do you think the answer is?" is a real pedagogical tool, returning the question on purpose to make the student do the thinking.</p>
+    <p>So the returned question isn't inherently an Ask-Hole move. It curdles into one under a specific condition: when the asker actually wanted your answer, and the return doesn't move toward one — it just bounces the original question back unchanged. The clarifying return advances the conversation ("which budget?"). The Boomerang return resets it ("well, what do you think?"), putting the asker right back where they started, now holding their own question plus the small social friction of having it refused.</p>
+    <p>Here's the mechanism that makes the gentle version so sneaky: deference looks identical to evasion from the outside. When someone says "whatever you think is best," you can't tell from the words alone whether they're being humble, don't have an opinion, don't trust the one they have, or are quietly dodging accountability. All of those produce the exact same sentence. And because the sentence sounds gracious, you're inclined to read it as generosity and move on — which means the boomerang succeeds precisely because it's polite. The cost hides inside the courtesy.</p>
+
+    <h2>How It Feels to Be on the Other End</h2>
+    <p>What makes being boomeranged uniquely frustrating is that you can't even be properly annoyed, because the person was being nice. Jake isn't fighting Sarah; he's deferring to her. So when you feel that little flicker of exasperation — <em>I just want an actual answer</em> — you also feel slightly guilty for feeling it, because what is there to object to? They were being accommodating. The frustration has nowhere to land.</p>
+    <p>But the cost is real, and it compounds. In the dinner version, it's trivial — a few wasted minutes and the same Mexican place. In the workplace version, it's not. When a leader asks a team member "how do you think we should handle this?" they're usually asking for a specific reason: they want their judgment, they want to know how they think, they want to develop them, or they genuinely don't know the answer and need a second mind on it. A boomerang back — "whatever you think is best" — defeats every one of those reasons at once. The leader doesn't get their judgment. They don't learn how they think. The team member doesn't grow, because they just dodged the rep. And if input was genuinely needed, the decision gets made alone, having gained nothing from asking.</p>
+    <p>And there's a slow, corrosive version over time. If every question handed to a team member comes straight back, the leader eventually stops asking — and just decides and tells. Which is the opposite of what they wanted, and it trains the whole team toward exactly the passivity they were trying to pull them out of. The boomerang, repeated, teaches the asker to stop throwing.</p>
+
+    <h2>Beyond the Conversation</h2>
+    <p>The returned question seems like it should live only in conversation. But the underlying move — declining to commit to an answer and pushing the work back on whoever asked — shows up on forms, in analysis, and in front of a machine too.</p>
+
+    <div class="chapter-box">
+      <div class="box-label">Ask-Hole on the Form</div>
+      <p>In surveys, the boomerang is the question that hands its own job back to the respondent — asking them to do the framing, the deciding, or the analysis the survey was supposed to do. "What do you think we should ask about in this survey?" as a survey question is a literal boomerang. More subtly, an open "what should we do better?" tossed to thousands of people pushes the entire analytical burden back onto them. They have to invent the categories, weigh the trade-offs, and design the solution you should have scoped. They mostly won't; they'll give you a shrug in text form.</p>
+      <p>❌ "What do you think we should focus on improving?"<br>✅ "Which of these areas most needs improvement: speed, price, support, or selection?" — then an optional open follow-up for specifics.</p>
+    </div>
+
+    <div class="chapter-box">
+      <div class="box-label">Ask-Hole in the Data</div>
+      <p>In research and analysis, the boomerang is the analyst who, asked "what does the data say we should do?", responds only with "well, what do you want it to say?" — handing the question back instead of forming a defensible answer. There's a real and important version of "it depends" — good analysis is full of legitimate caveats. But the boomerang version uses "it depends" as an exit, a way to avoid ever committing to an interpretation.</p>
+      <p>❌ "What do you want the numbers to say?" (in response to "what do the numbers say?")<br>✅ "Here's the most defensible read of the data, here are its limits, and here's the specific thing that would change my conclusion."</p>
+    </div>
+
+    <div class="chapter-box">
+      <div class="box-label">Ask-Hole at the AI Prompt</div>
+      <p>An AI almost never boomerangs you — handing your question back unanswered would feel unhelpful, and unhelpful is the one thing it's built not to be. The boomerang is yours, and the AI is where it does its most invisible damage. When the AI asks you a clarifying question — "What's your budget?" "Who's the audience?" "Formal or casual?" — it's asking because the answer lives only in your head. Bouncing it back ("I don't know — what do you think?") forces the machine to invent your answer. You get a confident, polished result aimed at a target you never actually set.</p>
+      <p>❌ AI: "Who's the audience for this?" → You: "I don't know, who do you think it should be?"<br>✅ AI: "Who's the audience for this?" → You: "Senior executives who are short on time and skeptical of jargon."</p>
+    </div>
+
+    <h2>How Not to Be One</h2>
+    <p>The fix is mostly about telling the truth about why you're returning a question — because the gentle boomerang is almost always a kindness pointed slightly wrong.</p>
+    <ul class="chapter-bullet">
+      <li><strong>If you have a preference, say it.</strong> When someone asked, your answer isn't an imposition — it's the thing they requested. "I'd actually like the Thai place, but I'm flexible" gives them something real to work with. You can be accommodating and still plant a flag; the two aren't opposites.</li>
+      <li><strong>If you genuinely don't have one, say that — don't bounce the question.</strong> "I really don't have a strong preference; happy to go wherever you'd like, or I'll pick if you want me to" is honest and ends the loop. "I don't know, what do you want?" just throws the boomerang back.</li>
+      <li><strong>If you're deferring out of self-doubt, give the answer anyway.</strong> When a leader asks for your take, the rep is the point. "Whatever you think is best" robs you of the chance to be right, to be heard, or to be usefully corrected. A wrong answer offered honestly is worth more to both of you than a safe non-answer.</li>
+      <li><strong>Catch the mutual boomerang early.</strong> When you feel a question starting to ping-pong, someone has to break it, and it might as well be you. Just decide, or commit to deciding: "Okay, I'll pick — Thai, unless you'd hate that."</li>
+    </ul>
+
+    <h2>If You're On the Receiving End</h2>
+    <p>When your question keeps coming back, you have a few ways to make it land instead of bounce — and with the gentle deferrers, these are usually a relief to them, too.</p>
+    <ul class="chapter-bullet">
+      <li><strong>Ask for their answer specifically, and say why you want it.</strong> "I'm not asking to test you — I actually want your read, because you're closer to this than I am." Naming why you want their input gives a self-doubter or a deferrer permission to offer it.</li>
+      <li><strong>Make the return cost more than the answer.</strong> Gently refuse to catch the boomerang: "I genuinely want to hear what you'd do — I'll go after you." Now the easiest path for them is to answer, not to bounce.</li>
+      <li><strong>Name the pattern, kindly, if it's chronic.</strong> "I've noticed I tend to ask and you tend to hand it back — I'd really value you putting a stake in the ground, even a rough one" makes the dynamic visible without shaming it. Most gentle deferrers have no idea they're doing it, and are glad to be invited in.</li>
+    </ul>
+
+    <div class="chapter-pull">
+      <p>The Question Boomerang is the one Ask-Hole who misuses your question instead of their own — by refusing to catch it and throwing it right back. Before you bounce a question, figure out what's true: if you have a preference, offer it; if you don't, say so plainly; and if you're hiding behind "what do you think?" because your own answer feels risky, offer it anyway. A boomerang always comes back to the person who threw it. The kind thing, when someone throws you a real question, is to catch it.</p>
+    </div>
+  </div>
+
+  <section class="chapter-cta-bar">
+    <h2>Want the Rest of the Archetypes?</h2>
+    <p>The Question Boomerang is just one of twelve. Get the book that names them all — and gives you the tools to recognize, respond to, and stop being an Ask-Hole.</p>
+    <div class="cta-group">
+      <a class="btn-white" href="https://www.amazon.com/dp/B0H67WL24V" target="_blank">Get the Book on Amazon</a>
+      <button class="btn-outline-white" onclick="showPage('book')">See All 12 Archetypes</button>
     </div>
   </section>
 
