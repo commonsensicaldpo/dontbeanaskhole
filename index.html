@@ -200,7 +200,7 @@
   <ul class="nav-links" id="nav-links">
     <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
     <li><a href="#" onclick="showPage('book')" id="nav-book">Don't Be an Ask-Hole</a></li>
-    <li><a href="#" onclick="showPage('boomerang')" id="nav-boomerang">Free Chapter</a></li>
+    <li id="nav-boomerang-li" style="display:none"><a href="#" onclick="showPage('boomerang')" id="nav-boomerang">Free Chapter</a></li>
   </ul>
 </nav>
 
@@ -485,6 +485,7 @@ function showPage(name) {
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   const el = document.getElementById('nav-' + name);
   if (el) el.classList.add('active');
+  document.getElementById('nav-boomerang-li').style.display = name === 'boomerang' ? '' : 'none';
   window.scrollTo(0, 0);
 }
 </script>
