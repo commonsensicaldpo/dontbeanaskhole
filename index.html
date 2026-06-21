@@ -1,0 +1,370 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&family=Lora:ital@0;1&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1a4a5c; --navy-dark: #0d2e3a; --crimson: #8B1A1A; --crimson-light: #a82020;
+    --gold: #C8960C; --gold-light: #e0a80e; --off-white: #F5F4F0;
+    --text-dark: #1a1a1a; --text-mid: #444; --text-light: #888;
+  }
+  body { font-family: 'Montserrat', sans-serif; background: var(--off-white); color: var(--text-dark); }
+  .page { display: none; } .page.active { display: block; }
+
+  nav { background: var(--navy-dark); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold); letter-spacing: 0.08em; cursor: pointer; }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
+  .nav-links a { color: #ccc; text-decoration: none; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; cursor: pointer; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+  .btn-primary { background: var(--crimson); color: white; padding: 0.65rem 1.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.2s; display: inline-block; }
+  .btn-primary:hover { background: var(--crimson-light); }
+  .btn-outline-light { background: transparent; color: #aac4cf; padding: 0.65rem 1.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: 2px solid #aac4cf; cursor: pointer; display: inline-block; }
+  .btn-gold { background: var(--gold); color: white; padding: 0.7rem 1.8rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; }
+  .btn-navy-outline { background: transparent; color: var(--navy); padding: 0.65rem 1.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: 2px solid var(--navy); cursor: pointer; }
+  .btn-navy-outline:hover { background: var(--navy); color: white; }
+  .btn-white { background: white; color: var(--crimson); padding: 0.7rem 1.8rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; }
+  .btn-outline-white { background: transparent; color: white; padding: 0.7rem 1.8rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: 2px solid rgba(255,255,255,0.7); cursor: pointer; }
+
+  /* HOME */
+  .hero { background: var(--navy-dark); padding: 3rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; min-height: 380px; }
+  .hero-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .hero-headline { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; line-height: 1.05; color: white; margin-bottom: 0.5rem; }
+  .hero-headline span { color: var(--crimson); }
+  .hero-sub { font-size: 0.88rem; color: #aac4cf; margin-bottom: 1.5rem; line-height: 1.6; max-width: 400px; }
+  .hero-ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .hero-image-side { display: flex; justify-content: center; align-items: center; gap: 1.5rem; }
+  .hero-photo { width: 200px; height: 240px; object-fit: cover; object-position: center top; border: 3px solid rgba(200,150,12,0.4); }
+  .hero-book-mini { width: 110px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+  .hero-book-mini:hover { transform: scale(1.04); }
+  .hero-book-mini img { width: 100%; display: block; }
+
+  .cred-bar { background: var(--gold); padding: 0.7rem 2rem; display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
+  .cred-item { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy-dark); }
+
+  .about-strip { background: white; padding: 2.5rem 2rem; }
+  .about-inner { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
+  .about-photo { width: 90px; height: 110px; object-fit: cover; object-position: center top; border-left: 4px solid var(--crimson); }
+  .about-name { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--navy); letter-spacing: 0.05em; line-height: 1; }
+  .about-title { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin: 0.2rem 0 0.6rem; }
+  .about-bio { font-size: 0.85rem; line-height: 1.7; color: var(--text-mid); }
+
+  .section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-light); text-align: center; margin-bottom: 0.4rem; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--navy-dark); text-align: center; letter-spacing: 0.05em; margin-bottom: 2rem; }
+  .divider-gold { height: 3px; background: var(--gold); max-width: 60px; margin: 0.8rem auto 1.5rem; }
+
+  .featured-book-section { background: var(--off-white); padding: 3rem 2rem; }
+  .featured-book-card { max-width: 820px; margin: 0 auto; background: white; display: grid; grid-template-columns: 180px 1fr; border-left: 5px solid var(--crimson); }
+  .featured-cover-img { display: block; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+  .featured-book-info { padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; gap: 0.8rem; }
+  .featured-book-headline { font-family: 'Bebas Neue', sans-serif; font-size: 1.45rem; color: var(--navy-dark); letter-spacing: 0.04em; line-height: 1.15; }
+  .featured-book-desc { font-size: 0.82rem; line-height: 1.7; color: var(--text-mid); }
+  .featured-book-ctas { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .published-badge { background: var(--navy-dark); color: var(--gold); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.7rem; display: inline-block; margin-bottom: 0.4rem; }
+
+  .series-section { background: var(--navy-dark); padding: 3rem 2rem; }
+  .series-section .section-title { color: white; }
+  .series-section .section-label { color: rgba(200,150,12,0.8); }
+  .book-shelf { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; max-width: 820px; margin: 0 auto; }
+  .shelf-book { background: rgba(255,255,255,0.06); border-top: 3px solid var(--gold); padding: 1rem 0.8rem; cursor: pointer; transition: background 0.2s; }
+  .shelf-book:hover { background: rgba(255,255,255,0.11); }
+  .shelf-book-title { font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; color: white; letter-spacing: 0.04em; line-height: 1.2; margin-bottom: 0.4rem; }
+  .shelf-book-sub { font-size: 0.62rem; color: rgba(200,150,12,0.8); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .speaking-cta { background: var(--crimson); padding: 2.5rem 2rem; text-align: center; }
+  .speaking-cta h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: white; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+  .speaking-cta p { font-size: 0.85rem; color: rgba(255,255,255,0.85); margin-bottom: 1.2rem; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+  footer { background: #0a1f28; padding: 1.5rem 2rem; text-align: center; font-size: 0.7rem; color: #557a8a; letter-spacing: 0.05em; }
+
+  /* BOOK PAGE */
+  .book-hero { background: var(--navy-dark); padding: 2.5rem 2rem 0; }
+  .book-hero-inner { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: end; }
+  .book-hero-text { padding-bottom: 2.5rem; }
+  .book-genre-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .book-main-title { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: white; line-height: 1; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+  .book-main-title .highlight { color: var(--crimson); }
+  .book-subtitle { font-family: 'Lora', serif; font-style: italic; font-size: 1rem; color: #aac4cf; margin-bottom: 1.2rem; line-height: 1.5; }
+  .book-hero-ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .book-cover-display { display: flex; align-items: flex-end; }
+  .book-cover-real { width: 200px; display: block; box-shadow: -6px 6px 24px rgba(0,0,0,0.5); }
+
+  /* HOOK */
+  .hook-section { background: white; padding: 3.5rem 2rem; }
+  .hook-inner { max-width: 780px; margin: 0 auto; }
+  .hook-question { font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem; color: var(--navy-dark); letter-spacing: 0.03em; line-height: 1.1; margin-bottom: 0.8rem; }
+  .hook-question em { color: var(--crimson); font-style: normal; }
+  .hook-answer { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 1.2rem; letter-spacing: 0.01em; }
+  .hook-body { font-size: 0.88rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 0.9rem; }
+  .hook-body strong { color: var(--text-dark); }
+  .hook-tease { background: var(--off-white); border-left: 4px solid var(--gold); padding: 1rem 1.3rem; margin: 1.5rem 0; }
+  .hook-tease p { font-family: 'Lora', serif; font-style: italic; font-size: 0.9rem; color: var(--navy-dark); line-height: 1.7; }
+  .hook-tease .reveal { color: var(--crimson); font-style: normal; font-weight: 700; }
+  .hook-ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+  /* DEFINITION */
+  .definition-section { background: var(--navy-dark); padding: 3rem 2rem; }
+  .definition-inner { max-width: 760px; margin: 0 auto; }
+  .def-word { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--crimson); letter-spacing: 0.05em; }
+  .def-phonetic { font-size: 0.75rem; color: #aac4cf; font-style: italic; margin-bottom: 0.6rem; }
+  .def-text { font-size: 0.92rem; line-height: 1.8; color: #ccdde5; border-left: 3px solid var(--gold); padding-left: 1.2rem; margin-bottom: 1.5rem; }
+  .def-examples { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+  .def-example { background: rgba(255,255,255,0.06); padding: 1rem 1.1rem; border-top: 2px solid var(--crimson); }
+  .def-example-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+  .def-example-text { font-family: 'Lora', serif; font-style: italic; font-size: 0.8rem; color: #aac4cf; line-height: 1.6; }
+
+  /* ARCHETYPES */
+  .archetypes-section { background: var(--off-white); padding: 3rem 2rem; }
+  .archetype-grid { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; }
+  .archetype-card { background: white; border-top: 3px solid var(--navy); padding: 1rem 0.9rem; }
+  .archetype-card.intentional { border-top-color: var(--crimson); }
+  .archetype-card.bridge { border-top-color: var(--gold); }
+  .archetype-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.3rem; }
+  .archetype-name { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--navy-dark); letter-spacing: 0.04em; line-height: 1.1; }
+  .archetype-card.intentional .archetype-name { color: var(--crimson); }
+  .archetype-card.bridge .archetype-name { color: #a07009; }
+  .archetype-type { font-size: 0.62rem; color: var(--text-light); margin-top: 0.2rem; }
+
+  /* PEEK */
+  .peek-section { background: var(--navy-dark); padding: 3rem 2rem; }
+  .peek-section .section-title { color: white; }
+  .peek-section .section-label { color: rgba(200,150,12,0.8); }
+  .peek-pages { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .peek-page { background: white; padding: 1.5rem; }
+  .peek-chapter { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--crimson); margin-bottom: 0.5rem; }
+  .peek-page-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--navy-dark); letter-spacing: 0.04em; margin-bottom: 0.8rem; }
+  .peek-page-text { font-size: 0.78rem; line-height: 1.7; color: var(--text-mid); }
+  .peek-page-text em { font-family: 'Lora', serif; color: var(--text-dark); }
+
+  .book-final-cta { background: var(--crimson); padding: 3rem 2rem; text-align: center; }
+  .book-final-cta h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: white; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .book-final-cta p { font-size: 0.85rem; color: rgba(255,255,255,0.88); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+  .cta-group { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+</style>
+
+<h2 class="sr-only">Deena Chadwick — The CommonSensical BA</h2>
+
+<nav>
+  <div class="nav-brand" onclick="showPage('home')">THE COMMONSENSICAL BA</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('book')" id="nav-book">Don't Be an Ask-Hole</a></li>
+    <li><a href="#">The Series</a></li>
+    <li><a href="#">Speaking</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div>
+      <p class="hero-eyebrow">Keynote Speaker · Author · Coach</p>
+      <h1 class="hero-headline">Questions Are<br><span>Powerful.</span><br>Until They're Not.</h1>
+      <p class="hero-sub">Deena Chadwick helps teams communicate smarter, ask better questions, and deliver results — without the workplace nonsense.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="showPage('book')">Read the New Book</button>
+        <button class="btn-outline-light">Book Me to Speak</button>
+      </div>
+    </div>
+    <div class="hero-image-side">
+      <img id="hero-photo" class="hero-photo" alt="Deena Chadwick" />
+      <div class="hero-book-mini" onclick="showPage('book')">
+        <img id="hero-book-cover" alt="Don't Be an Ask-Hole — Deena Chadwick" />
+      </div>
+    </div>
+  </section>
+
+  <div class="cred-bar">
+    <span class="cred-item">CBAP Certified</span>
+    <span class="cred-item">CPOA Certified</span>
+    <span class="cred-item">PSM Certified</span>
+    <span class="cred-item">PO Manager · Palomar</span>
+    <span class="cred-item">Author · CommonSensical Series</span>
+  </div>
+
+  <section class="about-strip">
+    <div class="about-inner">
+      <img id="about-photo" class="about-photo" alt="Deena Chadwick" />
+      <div>
+        <div class="about-name">Deena Chadwick</div>
+        <div class="about-title">The CommonSensical BA · Speaker · Author · Coach</div>
+        <p class="about-bio">Author of the CommonSensical Series, including the newly published <em>Don't Be an Ask-Hole</em>, Deena is a sought-after keynote speaker, trainer, and CBAP/CPOA/PSM-certified BA leader. She brings passion, practical wisdom, and a contagious get-it-done energy to every stage and every page.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-book-section">
+    <p class="section-label">Now Available</p>
+    <h2 class="section-title">Have You Been Confronted by an Ask-Hole?</h2>
+    <div class="featured-book-card">
+      <img id="home-book-cover" class="featured-cover-img" alt="Don't Be an Ask-Hole book cover" onclick="showPage('book')" />
+      <div class="featured-book-info">
+        <div class="published-badge">Now Published</div>
+        <h3 class="featured-book-headline">You Probably Already Know One.<br>Now Find Out Why — and What to Do About It.</h3>
+        <p class="featured-book-desc">They ask for your opinion and ignore it. They phrase the question to get the answer they want. They've asked six people the same thing and are working their way down the list. <em>That person has a name now.</em></p>
+        <p class="featured-book-desc" style="font-family:'Lora',serif;font-style:italic;color:var(--crimson);">"Absence of friction is not the presence of a good answer."</p>
+        <div class="featured-book-ctas">
+          <button class="btn-primary" onclick="showPage('book')">Discover the Archetypes</button>
+          <button class="btn-navy-outline">Get the Book</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="series-section">
+    <p class="section-label">The CommonSensical Series</p>
+    <h2 class="section-title">More Books by Deena</h2>
+    <div class="book-shelf">
+      <div class="shelf-book"><div class="shelf-book-title">Requirements Gathering Like an FBI Agent</div><div class="shelf-book-sub">CommonSensical Series</div></div>
+      <div class="shelf-book"><div class="shelf-book-title">CommonSensical Product Ownership</div><div class="shelf-book-sub">CommonSensical Series</div></div>
+      <div class="shelf-book"><div class="shelf-book-title">Don't Get Drowned in Your Datalake</div><div class="shelf-book-sub">CommonSensical Series</div></div>
+      <div class="shelf-book"><div class="shelf-book-title">CommonSensical Documentation</div><div class="shelf-book-sub">CommonSensical Series</div></div>
+      <div class="shelf-book"><div class="shelf-book-title">Stakeholders Are People Too!</div><div class="shelf-book-sub">CommonSensical Series</div></div>
+    </div>
+  </section>
+
+  <section class="speaking-cta">
+    <h2>Ready to Level Up Your Team?</h2>
+    <p>Deena delivers high-energy keynotes and workshops on Business Analysis, Agile Product Delivery, and communication skills that actually stick.</p>
+    <button class="btn-gold">Book Deena to Speak</button>
+  </section>
+
+  <footer>© 2026 Deena Chadwick · The CommonSensical BA &nbsp;|&nbsp; deena.chadwick@commonsensicalba.com &nbsp;|&nbsp; @commonsense_ba</footer>
+</div>
+
+<!-- BOOK PAGE -->
+<div id="page-book" class="page">
+
+  <section class="book-hero">
+    <div class="book-hero-inner">
+      <div class="book-hero-text">
+        <p class="book-genre-tag">Now Available · Nonfiction · Communication · Business</p>
+        <h1 class="book-main-title">Don't Be an<br><span class="highlight">Ask-Hole</span></h1>
+        <p class="book-subtitle">How to Stop Misusing Questions and Start Getting Real Answers</p>
+        <p style="font-size:0.8rem;color:#aac4cf;margin-bottom:1.2rem;line-height:1.6;">By Deena Chadwick · The CommonSensical BA</p>
+        <div class="book-hero-ctas">
+          <button class="btn-primary">Get the Book</button>
+          <button class="btn-gold">Read Chapter 1 Free</button>
+        </div>
+      </div>
+      <div class="book-cover-display">
+        <img id="book-page-cover" class="book-cover-real" alt="Don't Be an Ask-Hole — Deena Chadwick" />
+      </div>
+    </div>
+  </section>
+
+  <!-- HOOK -->
+  <section class="hook-section">
+    <div class="hook-inner">
+      <h2 class="hook-question">Have You Ever Been Confronted<br>by an <em>Ask-Hole?</em></h2>
+      <p class="hook-answer">You probably already know one. Now find out why — and what to do about it.</p>
+      <p class="hook-body">They ask for your opinion — then do exactly what they were going to do anyway. They phrase the question to guarantee the answer they want. They've already asked five other people and are working their way down the list until someone says yes. They pile three questions into one message and only respond to the part that suits them.</p>
+      <p class="hook-body">Sound familiar? Of course it does. <strong>That person has a name now.</strong></p>
+      <p class="hook-body">Here's the part that makes this more than just satisfying to read: Ask-Holes aren't always doing it on purpose. Some know exactly what they're doing. Others have no idea. And a few sit somewhere on the line between the two. Understanding <em>which kind</em> you're dealing with changes everything about how you respond.</p>
+
+      <div class="hook-tease">
+        <p>This book names 12 archetypes and maps the question types they misuse — in conversations, meetings, surveys, research, and AI prompts. <span class="reveal">Can they be "cured"? That's in the book.</span></p>
+      </div>
+
+      <div class="hook-ctas">
+        <button class="btn-primary">Get the Book</button>
+        <button class="btn-gold" style="color:white;">Read Chapter 1 Free</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEFINITION -->
+  <section class="definition-section">
+    <div class="definition-inner">
+      <div class="def-word">Ask-Hole</div>
+      <div class="def-phonetic">/ ˈask hōl / · noun · informal</div>
+      <p class="def-text">Someone who <strong style="color:white;">intentionally or unintentionally misuses or abuses questions</strong> — in conversation, surveys, research, or AI prompts — in ways that block real communication and derail real answers.</p>
+      <div class="def-examples">
+        <div class="def-example">
+          <div class="def-example-label">The Intentional Kind</div>
+          <p class="def-example-text">"Do you think we should go with Option A — you know, the one that actually makes sense?" That's a leading question wearing a question mark.</p>
+        </div>
+        <div class="def-example">
+          <div class="def-example-label">The Unintentional Kind</div>
+          <p class="def-example-text">"Hey — did you finish the report and did you loop in the team and is the client confirmed?" Three questions. One message. Zero chance of a complete answer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHETYPES -->
+  <section class="archetypes-section">
+    <p class="section-label">Inside the Book</p>
+    <h2 class="section-title">Which One Are You Dealing With?</h2>
+    <div class="divider-gold"></div>
+    <div class="archetype-grid">
+      <div class="archetype-card intentional"><div class="archetype-label">Part One · Intentional</div><div class="archetype-name">Serial Advice Seeker</div><div class="archetype-type">Validation-Seeking Question</div></div>
+      <div class="archetype-card intentional"><div class="archetype-label">Part One · Intentional</div><div class="archetype-name">Manipulative Questioner</div><div class="archetype-type">Leading Question</div></div>
+      <div class="archetype-card intentional"><div class="archetype-label">Part One · Intentional</div><div class="archetype-name">Rhetorical Questioner</div><div class="archetype-type">No-Answer-Wanted Question</div></div>
+      <div class="archetype-card intentional"><div class="archetype-label">Part One · Intentional</div><div class="archetype-name">Do-My-Work Delegate</div><div class="archetype-type">Effort-Transfer Question</div></div>
+      <div class="archetype-card intentional"><div class="archetype-label">Part One · Intentional</div><div class="archetype-name">Reality Distorter</div><div class="archetype-type">Gas-Lighting Question</div></div>
+      <div class="archetype-card intentional"><div class="archetype-label">Part One · Intentional</div><div class="archetype-name">Answer Shopper</div><div class="archetype-type">Already-Answered Question</div></div>
+      <div class="archetype-card bridge"><div class="archetype-label">The Bridge</div><div class="archetype-name">Question Boomerang</div><div class="archetype-type">Returned Question</div></div>
+      <div class="archetype-card"><div class="archetype-label">Part Two · Unintentional</div><div class="archetype-name">Two-For-One Interrogator</div><div class="archetype-type">Compound Question</div></div>
+      <div class="archetype-card"><div class="archetype-label">Part Two · Unintentional</div><div class="archetype-name">Sarcastic Questioner</div><div class="archetype-type">Deadpan Question</div></div>
+      <div class="archetype-card"><div class="archetype-label">Part Two · Unintentional</div><div class="archetype-name">Brain Baffler</div><div class="archetype-type">Overloaded Question</div></div>
+      <div class="archetype-card"><div class="archetype-label">Part Two · Unintentional</div><div class="archetype-name">Vague-a-bond</div><div class="archetype-type">Under-Specified Question</div></div>
+      <div class="archetype-card"><div class="archetype-label">Part Two · Unintentional</div><div class="archetype-name">Interrupting Pre-empter</div><div class="archetype-type">Can't-Wait Question</div></div>
+    </div>
+  </section>
+
+  <!-- PEEK -->
+  <section class="peek-section">
+    <p class="section-label">Sneak Peek</p>
+    <h2 class="section-title">A Look Inside</h2>
+    <div class="divider-gold"></div>
+    <div class="peek-pages">
+      <div class="peek-page">
+        <div class="peek-chapter">Introduction</div>
+        <div class="peek-page-title">The Neighbor Who Started It All</div>
+        <p class="peek-page-text">Phil asked for my opinion on every major life decision — the car, the job, the fence. And every single time, he did exactly what he was going to do anyway. One day I finally put a word to it. <em>Phil's an Ask-Hole.</em> Not a bad person. Just someone who had turned the question into a tool for something other than getting an answer.</p>
+      </div>
+      <div class="peek-page">
+        <div class="peek-chapter">Part Two · Chapter 8</div>
+        <div class="peek-page-title">The Two-For-One Interrogator</div>
+        <p class="peek-page-text">Bob sent me a Teams message: <em>"Hey, do you have the latest figures and did you loop in the team?"</em> Two questions. One message. The answer sounds complete — but a smooth answer hides the parts it skipped. <em>Bundling doesn't get corrected. It gets covered up.</em></p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="btn-gold">Read Chapter 1 Free</button>
+    </div>
+  </section>
+
+  <section class="book-final-cta">
+    <h2>You Know One. Now You'll Know Why.</h2>
+    <p>Get the book that names the patterns, tells the real stories, and gives you the tools to recognize, respond to — and stop being — an Ask-Hole. In every conversation, meeting, survey, and AI prompt.</p>
+    <div class="cta-group">
+      <button class="btn-white">Get the Book on Amazon</button>
+      <button class="btn-outline-white">Read Chapter 1 Free</button>
+    </div>
+  </section>
+
+  <footer>© 2026 Deena Chadwick · The CommonSensical BA &nbsp;|&nbsp; deena.chadwick@commonsensicalba.com &nbsp;|&nbsp; @commonsense_ba</footer>
+</div>
+
+<script>
+const PHOTO = "data:image/jpeg;base64,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";
+
+const COVER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAJCARgDASIAAhEBAxEB/8QAHAABAAEFAQEAAAAAAAAAAAAAAAQBAwUGBwL/xABWEAABBAECAgYGBgYGBwYHAAAAAQIDBAUREiExBhNBUWFxkRQiMlKBobHBFSMzQlNicoLRI2Nyg5Ki4fAHFjRFVGSjsrPC0iQlNTZERmSUo9Pk/8QAGQEBAAMBAQAAAAAAAAAAAAAAAAIDBAEF/8QALBEBAQABAwMCBAYDAAAAAAAAAAECAxESITFBBBNRcYGhIiMyQmGR0fD/2gAMAwEAAhEDEQA/APcQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//Z";
+
+document.getElementById('hero-photo').src = PHOTO;
+document.getElementById('about-photo').src = PHOTO;
+
+[document.getElementById('hero-book-cover'),
+ document.getElementById('home-book-cover'),
+ document.getElementById('book-page-cover')].forEach(el => { if(el) el.src = COVER; });
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const el = document.getElementById('nav-' + name);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
