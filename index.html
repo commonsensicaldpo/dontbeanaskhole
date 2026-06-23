@@ -171,6 +171,267 @@
   .chapter-cta-bar h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: white; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
   .chapter-cta-bar p { font-size: 0.85rem; color: rgba(255,255,255,0.85); max-width: 480px; margin: 0 auto 1.2rem; line-height: 1.6; }
 
+  /* ─── QUIZ PAGE ─── */
+  #page-quiz { background: var(--off-white); }
+
+  .quiz-screen { display: none; }
+  .quiz-screen.qactive { display: block; }
+
+  /* Quiz hero / start */
+  .qhero {
+    background: var(--navy);
+    padding: 64px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .qhero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(189,19,19,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .qhero-eyebrow {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+  }
+  .qhero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    line-height: 1.0; color: white; margin-bottom: 10px; letter-spacing: 0.04em;
+  }
+  .qhero-title span { color: var(--crimson); }
+  .qhero-sub {
+    font-size: 0.95rem; color: #aac4cf;
+    max-width: 440px; line-height: 1.65;
+    margin: 16px auto 32px;
+  }
+  .qhero-meta {
+    display: flex; gap: 24px; justify-content: center;
+    margin-bottom: 40px; flex-wrap: wrap;
+  }
+  .qhero-meta span {
+    font-size: 0.75rem; color: #aac4cf; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .qhero-meta span::before { content: '✓'; color: var(--gold); font-weight: 700; }
+  .qhero-disclaimer { margin-top: 18px; font-size: 0.72rem; color: #6b8a96; }
+  .qhero-disclaimer em { color: #aac4cf; }
+
+  /* Progress */
+  .qprogress-wrap { max-width: 660px; margin: 40px auto 28px; padding: 0 24px; }
+  .qprogress-label {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+  }
+  .qphase-tag {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 2px; background: var(--navy-dark); color: var(--gold);
+  }
+  .qphase-tag.phase2 { background: var(--crimson-dark); color: white; }
+  .qq-count { font-size: 0.78rem; color: var(--text-light); font-weight: 500; }
+  .qprogress-bar { height: 4px; background: #ddd; border-radius: 2px; overflow: hidden; }
+  .qprogress-fill {
+    height: 100%; background: var(--crimson); border-radius: 2px; transition: width 0.4s ease;
+  }
+
+  /* Question card */
+  .qqcard {
+    background: white; border: 1px solid #e0d8ce; border-radius: 4px;
+    padding: 40px 44px; box-shadow: 0 2px 12px rgba(13,46,58,0.07);
+    max-width: 660px; margin: 0 auto 8px;
+  }
+  .qq-number {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--crimson); margin-bottom: 12px;
+  }
+  .qq-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    letter-spacing: 0.03em; line-height: 1.3;
+    color: var(--navy-dark); margin-bottom: 28px;
+  }
+  .qoptions { display: flex; flex-direction: column; gap: 10px; }
+  .qopt-btn {
+    background: var(--off-white); border: 1.5px solid #ddd; border-radius: 3px;
+    padding: 14px 18px; text-align: left;
+    font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 500;
+    color: var(--text-dark); cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    line-height: 1.5;
+  }
+  .qopt-btn:hover { border-color: var(--crimson); background: #fdf5f5; transform: translateX(3px); }
+  .qopt-btn.qselected { border-color: var(--crimson); background: #faeaea; font-weight: 600; }
+  .qopt-letter {
+    display: inline-block; width: 22px; height: 22px; border-radius: 50%;
+    background: #e0d8ce; color: var(--text-light); font-size: 0.68rem; font-weight: 700;
+    text-align: center; line-height: 22px; margin-right: 10px; flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+  .qopt-btn.qselected .qopt-letter { background: var(--crimson); color: white; }
+  .qopt-inner { display: flex; align-items: flex-start; }
+
+  .qq-nav { display: flex; justify-content: flex-end; max-width: 660px; margin: 16px auto 0; padding: 0 24px; }
+  .qbtn-next {
+    background: var(--navy-dark); color: white; font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem; font-weight: 700; padding: 12px 28px; border: none; border-radius: 3px;
+    cursor: pointer; opacity: 0.3; pointer-events: none; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: opacity 0.2s, background 0.15s;
+  }
+  .qbtn-next.qactive { opacity: 1; pointer-events: all; }
+  .qbtn-next.qactive:hover { background: var(--crimson-dark); }
+
+  /* quiz wrapper padding */
+  #qscreen-quiz { padding-bottom: 80px; }
+  #qscreen-start { padding-bottom: 0; }
+
+  /* Teaser */
+  #qscreen-teaser { padding: 60px 24px; }
+  .qteaser-inner { max-width: 580px; margin: 0 auto; text-align: center; }
+  .qteaser-eyebrow {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+  }
+  .qteaser-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    letter-spacing: 0.04em; color: var(--navy-dark); margin-bottom: 18px;
+  }
+  .qteaser-badge {
+    display: inline-block; background: var(--navy); color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.04em;
+    padding: 12px 28px; border-radius: 3px; margin: 6px 0 24px;
+  }
+  .qteaser-blurb {
+    font-size: 0.92rem; color: var(--text-mid); line-height: 1.7;
+    margin-bottom: 32px; max-width: 440px; margin-left: auto; margin-right: auto;
+  }
+  .qteaser-upsell {
+    background: var(--navy); color: white; border-radius: 4px; padding: 32px 36px; text-align: left;
+  }
+  .qteaser-upsell h3 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.04em;
+    color: white; margin-bottom: 8px;
+  }
+  .qteaser-upsell h3 em { font-style: normal; color: var(--gold); }
+  .qteaser-upsell p { font-size: 0.85rem; color: #aac4cf; line-height: 1.65; margin-bottom: 20px; }
+  .qteaser-upsell ul { list-style: none; margin-bottom: 24px; }
+  .qteaser-upsell ul li {
+    font-size: 0.82rem; color: #aac4cf; padding: 5px 0 5px 20px; position: relative;
+  }
+  .qteaser-upsell ul li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+  /* Email gate */
+  #qscreen-email { padding: 60px 24px; }
+  .qemail-inner { max-width: 500px; margin: 0 auto; text-align: center; }
+  .qemail-icon { font-size: 2.8rem; margin-bottom: 18px; display: block; }
+  .qemail-headline {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: 0.04em; color: var(--navy-dark); margin-bottom: 10px;
+  }
+  .qemail-sub {
+    font-size: 0.88rem; color: var(--text-mid); line-height: 1.65;
+    margin-bottom: 30px; max-width: 400px; margin-left: auto; margin-right: auto;
+  }
+  .qemail-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+  .qemail-form input {
+    font-family: 'Montserrat', sans-serif; font-size: 0.92rem;
+    padding: 14px 16px; border: 1.5px solid #ddd; border-radius: 3px;
+    background: white; color: var(--text-dark); outline: none;
+    transition: border-color 0.15s; width: 100%;
+  }
+  .qemail-form input:focus { border-color: var(--crimson); }
+  .qemail-form input::placeholder { color: #aaa; }
+  .qemail-privacy { font-size: 0.7rem; color: var(--text-light); line-height: 1.5; }
+  .qemail-privacy a { color: inherit; }
+  .qemail-skip {
+    display: block; text-align: center; margin-top: 14px; font-size: 0.77rem;
+    color: var(--text-light); cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+  }
+  .qemail-skip:hover { color: var(--text-dark); }
+
+  /* Final result */
+  #qscreen-result { padding: 60px 24px 100px; }
+  .qresult-inner { max-width: 660px; margin: 0 auto; }
+  .qresult-eyebrow {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--crimson); margin-bottom: 10px; text-align: center;
+  }
+  .qresult-youare {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.3rem, 3vw, 1.8rem);
+    letter-spacing: 0.04em; color: var(--navy-dark); text-align: center; margin-bottom: 4px;
+  }
+  .qresult-type-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    letter-spacing: 0.04em; color: var(--crimson);
+    text-align: center; margin: 8px 0 4px; line-height: 1.05;
+  }
+  .qresult-qtype {
+    text-align: center; font-size: 0.78rem; color: var(--text-light);
+    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 32px;
+  }
+  .qresult-card {
+    background: white; border: 1px solid #e0d8ce; border-radius: 4px;
+    padding: 32px 36px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(13,46,58,0.06);
+  }
+  .qresult-card h3 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 0.06em;
+    color: var(--navy-dark); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .qresult-card p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.75; }
+  .qresult-card.runner-up { background: #fafafa; border-style: dashed; }
+  .qrunner-label {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-light); margin-bottom: 6px; display: block;
+  }
+  .qrunner-name {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.04em;
+    color: var(--navy-dark); margin-bottom: 8px;
+  }
+  .qresult-share { text-align: center; margin: 36px 0 28px; }
+  .qresult-share p {
+    font-size: 0.72rem; color: var(--text-light); margin-bottom: 14px;
+    font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .qshare-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .qshare-btn {
+    font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700;
+    padding: 10px 20px; border-radius: 3px; cursor: pointer; border: none;
+    transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .qshare-btn:hover { opacity: 0.82; transform: translateY(-1px); }
+  .qshare-btn.twitter { background: #1da1f2; color: white; }
+  .qshare-btn.linkedin { background: #0077b5; color: white; }
+  .qshare-btn.copy-link { background: var(--navy-dark); color: white; }
+  .qbook-cta {
+    background: var(--navy); border-radius: 4px; padding: 32px 36px; text-align: center; color: white;
+  }
+  .qbook-cta h3 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.04em;
+    margin-bottom: 8px; line-height: 1.2;
+  }
+  .qbook-cta h3 em { font-style: normal; color: var(--gold); }
+  .qbook-cta p {
+    font-size: 0.85rem; color: #aac4cf; line-height: 1.65; margin-bottom: 20px;
+    max-width: 400px; margin-left: auto; margin-right: auto;
+  }
+  .qbtn-retake {
+    display: block; text-align: center; margin-top: 20px; font-size: 0.78rem;
+    color: var(--text-light); cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+  }
+  .qbtn-retake:hover { color: var(--text-dark); }
+
+  @media (max-width: 640px) {
+    .qqcard { padding: 24px 18px; }
+    .qteaser-upsell { padding: 24px 20px; }
+    .qresult-card { padding: 24px 20px; }
+    .qbook-cta { padding: 24px 20px; }
+    .qemail-inner { text-align: left; }
+  }
+
   @media (max-width: 640px) {
     .nav-brand { font-size: 0.9rem; max-width: 55%; line-height: 1.2; }
     .nav-hamburger { display: flex; }
@@ -210,6 +471,7 @@
     <li><a href="#home" onclick="showPage('home')" id="nav-home">Home</a></li>
     <li><a href="#book" onclick="showPage('book')" id="nav-book">Don't Be an Ask-Hole</a></li>
     <li id="nav-boomerang-li" style="display:none"><a href="#boomerang" onclick="showPage('boomerang')" id="nav-boomerang">Free Chapter</a></li>
+    <li><a href="#quiz" onclick="showPage('quiz')" id="nav-quiz">Take the Quiz</a></li>
   </ul>
 </nav>
 
@@ -265,6 +527,13 @@
     </div>
   </section>
   </div>
+
+  <section style="background:var(--navy-dark);padding:2.5rem 2rem;text-align:center;">
+    <p style="font-size:0.65rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Free Personality Quiz</p>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:white;letter-spacing:0.05em;margin-bottom:0.5rem;">Which Ask-Hole Are You?</h2>
+    <p style="font-size:0.85rem;color:#aac4cf;margin-bottom:1.2rem;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.6;">12 questions. One uncomfortable truth. 13 possible results — frighteningly accurate.</p>
+    <button class="btn-primary" onclick="showPage('quiz')">Take the Quiz →</button>
+  </section>
 
   <section class="speaking-cta">
     <h2>Ready to Level Up Your Team?</h2>
@@ -355,6 +624,14 @@
       <div class="archetype-card"><div class="archetype-label">Part Two · Unintentional</div><div class="archetype-name">Interrupting Pre-empter</div><div class="archetype-type">Can't-Wait Question</div></div>
       <div class="archetype-card"><div class="archetype-label">Part Two · Unintentional</div><div class="archetype-name">Wondering Wonderer</div><div class="archetype-type">Rambling Question</div></div>
     </div>
+  </section>
+
+  <!-- QUIZ CTA -->
+  <section style="background:var(--crimson-dark);padding:2.5rem 2rem;text-align:center;">
+    <p style="font-size:0.65rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Free · 3 Minutes</p>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:white;letter-spacing:0.05em;margin-bottom:0.5rem;">Which One Are <em style="font-style:normal;color:var(--gold);">You?</em></h2>
+    <p style="font-size:0.85rem;color:rgba(255,255,255,0.85);margin-bottom:1.2rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6;">Take the 12-question quiz and find out which of the 13 Ask-Hole archetypes fits you best — plus what to do about it.</p>
+    <button class="btn-white" onclick="showPage('quiz')">Take the Quiz →</button>
   </section>
 
   <!-- PEEK -->
@@ -485,6 +762,129 @@
   <footer>© 2026 Deena Chadwick · The CommonSensical BA &nbsp;|&nbsp; <a href="mailto:deena.chadwick@commonsensicalba.com" style="color:inherit;">Email Me Today</a> &nbsp;|&nbsp; <a href="https://www.linkedin.com/in/deena-chadwick" target="_blank" style="color:inherit;">LinkedIn</a></footer>
 </div>
 
+<!-- QUIZ PAGE -->
+<div id="page-quiz" class="page">
+
+  <!-- Start -->
+  <div id="qscreen-start" class="quiz-screen qactive">
+    <div class="qhero">
+      <p class="qhero-eyebrow">Free Personality Quiz</p>
+      <h1 class="qhero-title">Which <span>Ask-Hole</span> Are You?</h1>
+      <p class="qhero-sub">12 questions. One uncomfortable truth. Zero judgment — well, maybe a little.</p>
+      <div class="qhero-meta">
+        <span>Takes about 3 minutes</span>
+        <span>13 possible results</span>
+        <span>Frighteningly accurate</span>
+      </div>
+      <button class="btn-primary" style="font-size:1rem;padding:16px 44px;letter-spacing:0.05em;" onclick="qStartQuiz()">Find Out →</button>
+      <p class="qhero-disclaimer">Based on <em>Don't Be an Ask-Hole</em> by Deena Chadwick</p>
+    </div>
+  </div>
+
+  <!-- Quiz questions -->
+  <div id="qscreen-quiz" class="quiz-screen">
+    <div class="qprogress-wrap">
+      <div class="qprogress-label">
+        <span class="qphase-tag" id="qphase-tag">Phase 1</span>
+        <span class="qq-count" id="qq-count">Question 1 of 12</span>
+      </div>
+      <div class="qprogress-bar"><div class="qprogress-fill" id="qprogress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="qqcard">
+      <div class="qq-number" id="qq-number">01</div>
+      <div class="qq-text" id="qq-text"></div>
+      <div class="qoptions" id="qoptions-container"></div>
+    </div>
+    <div class="qq-nav">
+      <button class="qbtn-next" id="qbtn-next" onclick="qNextQuestion()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Teaser -->
+  <div id="qscreen-teaser" class="quiz-screen">
+    <div class="qteaser-inner">
+      <p class="qteaser-eyebrow">After 6 Questions…</p>
+      <h2 class="qteaser-headline">You're Showing Strong Signs of Being a</h2>
+      <div class="qteaser-badge" id="qteaser-type-name">Loading…</div>
+      <p class="qteaser-blurb" id="qteaser-blurb"></p>
+      <div class="qteaser-upsell">
+        <h3>Want Your <em>Full Result?</em></h3>
+        <p>Six more questions will tell you your complete type, your runner-up, and exactly what you do in meetings. (You might not love the answer. But you'll learn something.)</p>
+        <ul>
+          <li>Your dominant Ask-Hole type — confirmed</li>
+          <li>Your runner-up type (the one you're in denial about)</li>
+          <li>A "you in a meeting" breakdown</li>
+          <li>What to do about it</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;font-size:0.92rem;padding:15px;" onclick="qShowEmailGate()">Get My Full Result →</button>
+        <span class="qemail-skip" onclick="qShowFinalResult(true)">No thanks, show me what I've got</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email gate -->
+  <div id="qscreen-email" class="quiz-screen">
+    <div class="qemail-inner">
+      <span class="qemail-icon">🔓</span>
+      <h2 class="qemail-headline">Almost There.</h2>
+      <p class="qemail-sub">Drop your name and email to unlock your full result — plus 6 more questions for a sharper read. No spam. Just occasional content that'll make you a better question-asker.</p>
+      <div class="qemail-form">
+        <input type="text" id="qinput-name" placeholder="First name" autocomplete="given-name">
+        <input type="email" id="qinput-email" placeholder="Email address" autocomplete="email">
+        <button class="btn-primary" style="font-size:0.95rem;padding:15px;" onclick="qSubmitEmail()">Unlock My Full Result →</button>
+      </div>
+      <p class="qemail-privacy">Your info stays with Deena Chadwick / CommonSensical Series. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <!-- Final result -->
+  <div id="qscreen-result" class="quiz-screen">
+    <div class="qresult-inner">
+      <p class="qresult-eyebrow" id="qresult-phase-label">Your Full Result</p>
+      <h2 class="qresult-youare">You Are…</h2>
+      <div class="qresult-type-name" id="qresult-type-name"></div>
+      <p class="qresult-qtype" id="qresult-qtype"></p>
+
+      <div class="qresult-card">
+        <h3>🎯 The Short Version</h3>
+        <p id="qresult-short"></p>
+      </div>
+      <div class="qresult-card">
+        <h3>💼 You in a Meeting</h3>
+        <p id="qresult-meeting"></p>
+      </div>
+      <div class="qresult-card">
+        <h3>💡 What To Do About It</h3>
+        <p id="qresult-fix"></p>
+      </div>
+      <div class="qresult-card runner-up" id="qrunner-card">
+        <span class="qrunner-label">Your Runner-Up Type</span>
+        <div class="qrunner-name" id="qrunner-name"></div>
+        <p id="qrunner-desc"></p>
+      </div>
+
+      <div class="qresult-share">
+        <p>Share Your Result</p>
+        <div class="qshare-btns">
+          <button class="qshare-btn twitter" onclick="qShareTwitter()">Share on X</button>
+          <button class="qshare-btn linkedin" onclick="qShareLinkedIn()">Share on LinkedIn</button>
+          <button class="qshare-btn copy-link" id="qcopy-btn" onclick="qCopyResult()">Copy Link</button>
+        </div>
+      </div>
+
+      <div class="qbook-cta">
+        <h3>Read the Whole <em>Taxonomy of Terrible Questions.</em></h3>
+        <p>All 13 Ask-Hole types, their signature moves, and exactly what to do when you spot one — including in the mirror.</p>
+        <a class="btn-gold" href="https://www.amazon.com/dp/B0H67WL24V" target="_blank" style="color:white;text-decoration:none;display:inline-block;">Get the Book on Amazon</a>
+      </div>
+
+      <span class="qbtn-retake" onclick="qRetakeQuiz()">↺ Take the quiz again</span>
+    </div>
+  </div>
+
+  <footer>© 2026 Deena Chadwick · The CommonSensical BA &nbsp;|&nbsp; <a href="mailto:deena.chadwick@commonsensicalba.com" style="color:inherit;">Email Me Today</a> &nbsp;|&nbsp; <a href="https://www.linkedin.com/in/deena-chadwick" target="_blank" style="color:inherit;">LinkedIn</a></footer>
+</div>
+
 <script>
 document.getElementById('about-photo').src = 'images/deena_headshot.jpg';
 
@@ -515,8 +915,412 @@ window.addEventListener('popstate', function(e) {
 
 function hashPage() {
   const h = location.hash.replace('#', '');
-  return ['home','book','boomerang'].includes(h) ? h : 'home';
+  return ['home','book','boomerang','quiz'].includes(h) ? h : 'home';
 }
 
 showPage(hashPage(), false);
+
+// ══════════════════════════════════════════
+//  QUIZ
+// ══════════════════════════════════════════
+const Q_ARCHETYPES = {
+  SAP: {
+    name: "The Serial Advice Seeker",
+    questionType: "Validation-Seeking Question",
+    short: "You ask for advice the way other people order appetizers — freely, frequently, and with no real intention of eating them. Your questions aren't requests for information. They're requests for permission you've already granted yourself.",
+    meeting: "You open with 'I just want to get everyone's thoughts on this' and then spend the next ten minutes explaining why your approach is correct. You nod thoughtfully at feedback. You implement none of it.",
+    fix: "Before you ask for advice next time, ask yourself honestly: am I open to an answer I didn't already have? If not, skip the question and just tell people what you've decided. It's more respectful than performing openness.",
+    runnerUpDesc: "You're not malicious about it — you genuinely believe you're soliciting input. That's what makes it the Serial Advice Seeker's signature move."
+  },
+  MQ: {
+    name: "The Manipulative Questioner",
+    questionType: "Leading Question",
+    short: "Your questions have a destination. You're not exploring — you're escorting. Every 'what do you think about...' has already been pre-loaded with the answer you want, and you're deeply skilled at making people feel like they arrived there themselves.",
+    meeting: "You ask 'Don't you think the timeline is the real issue here?' while looking directly at the person who controls the timeline. Everyone in the room feels slightly maneuvered but can't explain why.",
+    fix: "The tell is in your phrasing. Any question that contains the answer — 'isn't it true that,' 'wouldn't you agree,' 'don't you think' — isn't a question. It's a statement in disguise. Rewrite it as a genuine open question and see if you still want to ask it.",
+    runnerUpDesc: "You're strategic. The leading question is your instrument of choice because it lets you steer without appearing to steer."
+  },
+  RQ: {
+    name: "The Rhetorical Questioner",
+    questionType: "No-Answer-Wanted Question",
+    short: "You ask questions that are really just statements with better delivery. 'Isn't that exactly what I said last quarter?' doesn't need an answer. It needs an audience. You've mastered the art of making a point while technically just asking.",
+    meeting: "You pause for effect after your questions, but don't actually pause long enough for anyone to answer. You've timed it so that by the time someone opens their mouth, you've already moved on.",
+    fix: "Rhetorical questions land hardest in writing. In conversation, they often land as condescending. Before you deploy one, ask: am I making a point or making a person feel small? If you can't tell the difference in the moment, that's your answer.",
+    runnerUpDesc: "The rhetorical question is a performance tool, and you know exactly how to use it."
+  },
+  DMD: {
+    name: "The Do-My-Work Delegate",
+    questionType: "Effort-Transfer Question",
+    short: "Your questions are assignment slips with question marks at the end. 'Do you know anything about this topic?' is you checking whether the person next to you would be willing to become your unpaid researcher. It's efficient. It's also exhausting for everyone in your orbit.",
+    meeting: "You end every discussion with a question that somehow leaves everyone else holding the action items. 'So who should probably look into that?' and you're already reaching for your phone.",
+    fix: "The test is simple: if answering your question requires someone to do work you could have done yourself, do the work. Questions are for knowledge you genuinely can't access alone — not for outsourcing the fifteen minutes of effort you didn't feel like spending.",
+    runnerUpDesc: "You're efficient, and efficiency is good. The line is asking versus offloading."
+  },
+  RD: {
+    name: "The Reality Distorter",
+    questionType: "Reality-Bending Question",
+    short: "Your questions reframe reality so smoothly that people barely notice the frame has changed. 'Given how well the launch went...' sets up a premise that may or may not be shared by everyone in the room — but now it's the foundation of the conversation.",
+    meeting: "You introduce a false premise so naturally that half the room accepts it before the other half finishes blinking. By the time someone questions the premise, you've built an entire argument on top of it.",
+    fix: "Start with facts before you start with frames. What do you actually know happened? What's your interpretation of what happened? Those are two different things, and conflating them is where the distortion lives.",
+    runnerUpDesc: "You're a strong communicator — which is exactly what makes this dangerous."
+  },
+  AS: {
+    name: "The Answer Shopper",
+    questionType: "Already-Answered Question",
+    short: "You've already gotten an answer. You just didn't like it. So you're asking again — maybe someone else, maybe the same person framed differently — until reality cooperates. You're not seeking information. You're seeking a specific information.",
+    meeting: "You brought up the same issue in three separate meetings this month, each time slightly recontextualized, hoping a different group of people would reach a different conclusion. They haven't. You'll try again next quarter.",
+    fix: "When you notice you're asking a question you've already asked before, stop and ask why. Did the situation change? Did you learn something new? Or did you just not like the first answer? Two of those are valid reasons to re-ask. One isn't.",
+    runnerUpDesc: "The answer shopper isn't stubborn — they're optimistic. That's a generous read, but it's also accurate."
+  },
+  QB: {
+    name: "The Question Boomerang",
+    questionType: "Returned Question",
+    short: "You return questions like a professional. Someone asks what you think, you ask what they think. Someone asks for your recommendation, you ask what they're leaning toward. It's elegant, it's occasionally appropriate, and it can also be a masterclass in not committing to anything.",
+    meeting: "You are excellent at redirecting. 'Great question — what does the team think?' is your signature. Sometimes this is genuine facilitation. Sometimes it's because you really don't want to be wrong.",
+    fix: "Returning a question has genuine value — it invites perspective, builds dialogue, keeps conversations two-directional. The issue is when it becomes a habit for avoiding vulnerability. Next time you flip a question back, check: am I inviting, or am I deflecting?",
+    runnerUpDesc: "You live on the bridge between intentional and unintentional. That's a complicated zip code."
+  },
+  TFI: {
+    name: "The Two-For-One Interrogator",
+    questionType: "Compound Question",
+    short: "You ask two, three, sometimes four questions in a single breath, then look at someone expectantly. They answered the last one. You're still waiting on the first two. Nobody wins, and the conversation gets structurally weird.",
+    meeting: "You're known for the question that takes longer to ask than to answer — if anyone could figure out which part to answer first. People respond to whichever piece they remembered and hope for the best.",
+    fix: "One question, one sentence, one pause. That's the whole fix. It's uncomfortable at first because it slows you down. It's also the fastest route to actually getting an answer.",
+    runnerUpDesc: "This is almost always unintentional — and that's what makes it so common."
+  },
+  SQ: {
+    name: "The Sarcastic Questioner",
+    questionType: "Deadpan Question",
+    short: "Your humor is dry, your delivery is flat, and approximately half your questions are jokes that only you know are jokes. The other half are serious questions delivered in a tone that makes people unsure whether to laugh or answer.",
+    meeting: "'Is this the fourth time we've discussed this or the fifth?' is a genuine question, a rhetorical indictment, and a joke all at once, and only you know the ratio. Everyone else is watching the room for cues.",
+    fix: "The calibration issue is real. Your instinct is good — levity matters, especially in tense meetings — but the ambiguity is a tax on your audience. A slight vocal shift or one eyebrow raise can do the labeling work without killing the joke.",
+    runnerUpDesc: "You're not trying to confuse anyone. You've just been doing this so long you forgot it reads differently to the outside."
+  },
+  BB: {
+    name: "The Brain Baffler",
+    questionType: "Overloaded Question",
+    short: "Your questions carry a lot of luggage. Background, context, caveats, qualifications — by the time you get to the actual question, the person you're asking has been listening for two minutes and has forgotten the beginning of the sentence.",
+    meeting: "People smile and nod while you're winding up. At least one person takes notes just to have something to do with their hands. The question, when it finally arrives, is usually good. It just arrives so thoroughly wrapped that nobody noticed.",
+    fix: "Lead with the question, follow with the context. 'What should we do about X? Here's the background:' is a completely different experience than two paragraphs of setup followed by 'so… yeah, what do you think?' The answer is the same. The comprehension rate is not.",
+    runnerUpDesc: "You're thorough. Thoroughness is a strength. It's also, occasionally, an ambush."
+  },
+  VB: {
+    name: "The Vague-a-Bond",
+    questionType: "Under-Specified Question",
+    short: "Your questions are open to interpretation. Very open. 'What do you think we should do going forward?' is a question that could generate seventeen different answers across seventeen different time horizons, and you'll receive all of them, and they will not be what you needed.",
+    meeting: "You leave discussions energized by alignment that wasn't actually alignment. Everyone agreed things should 'improve' and 'move faster.' Nobody defined improve or faster. The next meeting will cover this.",
+    fix: "Before asking, answer these for yourself: what specifically do I want to know, about what situation, by what point in time? Once you can answer those, you can ask a question that someone else can actually answer.",
+    runnerUpDesc: "Vagueness usually comes from asking before fully forming the thought. The fix is doing that last ten seconds of thinking first."
+  },
+  WW: {
+    name: "The Wondering Wonderer",
+    questionType: "Rambling Question",
+    short: "You start asking a question and get a little lost along the way. You discover what you're asking as you're asking it, which is actually a valid cognitive process — just not one your audience signed up to witness in real time.",
+    meeting: "Heads tilt. Pens pause. Someone glances at the clock. You can see the moment the room realizes you haven't gotten to the question yet and the question may, in fact, still be in development.",
+    fix: "Pause before you speak. Not long — three seconds. Use it to complete the sentence in your head before saying it out loud. What are you actually asking? Name it. Then ask it. The thinking can happen silently.",
+    runnerUpDesc: "You're not being inconsiderate. You process out loud. This is a communication style, not a character flaw — it just needs some editing."
+  },
+  IP: {
+    name: "The Interrupting Pre-Empter",
+    questionType: "Can't-Wait Question",
+    short: "You ask before you know enough to ask. While someone is still explaining, you've already generated a question — and asked it — based on information that was about to be provided anyway. Half your questions answer themselves in the next thirty seconds.",
+    meeting: "Someone starts a presentation. You have a question by slide three. By slide six, it would have been answered. You asked it on slide three. This happens at least twice per meeting.",
+    fix: "The discipline is staying in receive mode longer. Not forever — genuine questions midstream are valuable. But the question to ask yourself before speaking is: 'Is this answer coming?' If you don't know yet, wait. You'll either get the answer, or you'll get a better question.",
+    runnerUpDesc: "You're curious and engaged. The interruption is a side effect of caring. That's worth something — it just needs a beat more patience."
+  }
+};
+
+const Q_QUESTIONS = [
+  {
+    text: "Your manager asks for your opinion on a plan. Honestly, you already think the plan is fine and are mostly hoping everyone agrees quickly. You:",
+    options: [
+      { text: "Nod along while mentally moving on.", archetype: "SAP" },
+      { text: "Ask a question that steers the group toward agreeing it's fine.", archetype: "MQ" },
+      { text: "Say 'well, isn't this basically what we decided last time?' — half joking, half not.", archetype: "RQ" },
+      { text: "Ask your colleague next to you what they think, privately hoping they'll just validate you.", archetype: "SAP" }
+    ]
+  },
+  {
+    text: "A coworker is mid-explanation when you think of a question. You:",
+    options: [
+      { text: "Ask it immediately — it might change where they're going.", archetype: "IP" },
+      { text: "Write it down and wait.", archetype: "WW" },
+      { text: "Ask it, and then realize the next sentence answered it. Shrug.", archetype: "IP" },
+      { text: "Wait, but start visibly formulating the question while they talk.", archetype: "BB" }
+    ]
+  },
+  {
+    text: "You've been told the deadline can't move. You don't love that answer. You:",
+    options: [
+      { text: "Ask someone else — maybe they have more flexibility.", archetype: "AS" },
+      { text: "Bring it up again at the next meeting with slightly different framing.", archetype: "AS" },
+      { text: "Say 'so you're saying there's truly no room at all?' in a way that technically asks again.", archetype: "MQ" },
+      { text: "Accept it, but mention it one more time 'just to make sure everyone's aligned.'", archetype: "RD" }
+    ]
+  },
+  {
+    text: "You need research done on a competitor. You have time to do it yourself. You:",
+    options: [
+      { text: "Email three people asking if they 'happen to know anything' about it.", archetype: "DMD" },
+      { text: "Ask your intern to put together a summary.", archetype: "DMD" },
+      { text: "Open a browser, type two words, then close it and send an email instead.", archetype: "DMD" },
+      { text: "Do it yourself but send a Slack message asking if anyone has 'a quick take' while you're at it.", archetype: "TFI" }
+    ]
+  },
+  {
+    text: "You're in a tense meeting and want to lighten things up. You say:",
+    options: [
+      { text: "'Is this the third time we've discussed this slide or the fourth?' (You already know it's the fourth.)", archetype: "SQ" },
+      { text: "'So just to make sure we're all on the same page — does anyone actually disagree?' (Nobody will.)", archetype: "MQ" },
+      { text: "'I'm just wondering out loud here, but has anyone considered that the whole approach might need revisiting…?' (You have considered this extensively.)", archetype: "WW" },
+      { text: "'What are we even solving for here?' (Genuinely don't know. Also slightly rhetorical.)", archetype: "RQ" }
+    ]
+  },
+  {
+    text: "Someone asks for your opinion on something you're not totally sure about. You:",
+    options: [
+      { text: "Ask them what they think first, then decide if you agree.", archetype: "QB" },
+      { text: "Give a very thorough answer that covers all possible angles. Comprehensively.", archetype: "BB" },
+      { text: "Ask a clarifying question about their question before answering their question.", archetype: "VB" },
+      { text: "Answer confidently but pivot with 'what's your take?' the moment you finish.", archetype: "QB" }
+    ]
+  },
+  {
+    text: "You're writing a survey. One of your questions is: 'How would you rate the overall success of the initiative?' Before you hit send, you:",
+    options: [
+      { text: "Add 'Given how much work the team put in' before the question.", archetype: "RD" },
+      { text: "Add a second question about what specifically worked well, right after.", archetype: "TFI" },
+      { text: "Send it as is — it's clear enough.", archetype: "VB" },
+      { text: "Realize you worded it so the 'right' answer is obvious and rewrite it.", archetype: "MQ" }
+    ]
+  },
+  {
+    text: "Your question to a colleague takes about forty-five seconds to ask. When you finish, they say 'wait, can you repeat the question?' You:",
+    options: [
+      { text: "Repeat it. Same length. Same structure.", archetype: "BB" },
+      { text: "Shorten it this time — you realize you buried it.", archetype: "WW" },
+      { text: "Apologize and say 'sorry, I ramble' and then start again, rambling slightly less.", archetype: "WW" },
+      { text: "Ask them what part they missed, somehow generating a second question in the process.", archetype: "TFI" }
+    ]
+  },
+  {
+    text: "You're asking an AI assistant for help on a task. It gives you a response that isn't quite what you wanted. You:",
+    options: [
+      { text: "Ask the same question again but with 'please be more specific' added.", archetype: "VB" },
+      { text: "Ask it: 'Is this really the best you can do?' (Mostly to see what it says.)", archetype: "RQ" },
+      { text: "Ask it three follow-up questions in one message and see which one it addresses.", archetype: "TFI" },
+      { text: "Keep rephrasing until it tells you what you were hoping to hear.", archetype: "AS" }
+    ]
+  },
+  {
+    text: "You send an email asking a colleague for input. Three days later, nothing. You:",
+    options: [
+      { text: "Forward the original and say 'just wanted to make sure this didn't get buried.'", archetype: "SAP" },
+      { text: "Ask a different colleague the same question to see if you get something useful faster.", archetype: "AS" },
+      { text: "Ask them in the next meeting: 'Were you able to look at what I sent?' in front of everyone.", archetype: "RQ" },
+      { text: "Wonder if you even asked clearly enough and do nothing for another three days.", archetype: "VB" }
+    ]
+  },
+  {
+    text: "In a brainstorm, you have a fully formed idea but frame it as a question: 'Has anyone thought about just doing X?' You do this because:",
+    options: [
+      { text: "If it bombs, it wasn't really your idea.", archetype: "QB" },
+      { text: "You want to see if anyone else came to the same place before you claim it.", archetype: "QB" },
+      { text: "It sounds more collaborative as a question.", archetype: "MQ" },
+      { text: "You genuinely weren't sure — it came out as a question because you were still thinking.", archetype: "WW" }
+    ]
+  },
+  {
+    text: "A data report shows results that don't match your expectations. You write the summary and open with:",
+    options: [
+      { text: "'Despite the challenging conditions this quarter…' before showing the numbers.", archetype: "RD" },
+      { text: "'Interesting results — what does the team think drove this?' without stating your own read.", archetype: "QB" },
+      { text: "'As we can see from the data, the approach was validated…' based on one favorable metric.", archetype: "RD" },
+      { text: "Just the numbers. No frame. (People can decide what they mean.)", archetype: "VB" }
+    ]
+  }
+];
+
+let qCurrentQ = 0;
+let qScores = {};
+let qSelectedOption = null;
+let qSkipToBasic = false;
+
+Object.keys(Q_ARCHETYPES).forEach(k => qScores[k] = 0);
+
+function qGetTopTypes(n) {
+  return Object.entries(qScores)
+    .sort((a,b) => b[1] - a[1])
+    .slice(0, n)
+    .map(e => e[0]);
+}
+
+function qShowScreen(id) {
+  document.querySelectorAll('.quiz-screen').forEach(s => s.classList.remove('qactive'));
+  document.getElementById(id).classList.add('qactive');
+  window.scrollTo(0, 0);
+}
+
+function qRenderQuestion() {
+  const q = Q_QUESTIONS[qCurrentQ];
+  const qNum = qCurrentQ + 1;
+
+  document.getElementById('qq-number').textContent = String(qNum).padStart(2,'0');
+  document.getElementById('qq-text').textContent = q.text;
+  document.getElementById('qq-count').textContent = `Question ${qNum} of 12`;
+  document.getElementById('qprogress-fill').style.width = `${(qNum / 12) * 100}%`;
+
+  const phaseTag = document.getElementById('qphase-tag');
+  if (qCurrentQ >= 6) {
+    phaseTag.textContent = 'Deep Cut';
+    phaseTag.classList.add('phase2');
+  } else {
+    phaseTag.textContent = 'Phase 1';
+    phaseTag.classList.remove('phase2');
+  }
+
+  const container = document.getElementById('qoptions-container');
+  container.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'qopt-btn';
+    btn.innerHTML = `<span class="qopt-inner"><span class="qopt-letter">${letters[i]}</span>${opt.text}</span>`;
+    btn.onclick = () => qSelectOption(i, btn);
+    container.appendChild(btn);
+  });
+
+  qSelectedOption = null;
+  document.getElementById('qbtn-next').classList.remove('qactive');
+}
+
+function qSelectOption(idx, btn) {
+  document.querySelectorAll('.qopt-btn').forEach(b => b.classList.remove('qselected'));
+  btn.classList.add('qselected');
+  qSelectedOption = idx;
+  document.getElementById('qbtn-next').classList.add('qactive');
+}
+
+function qNextQuestion() {
+  if (qSelectedOption === null) return;
+  const q = Q_QUESTIONS[qCurrentQ];
+  const archetype = q.options[qSelectedOption].archetype;
+  qScores[archetype] = (qScores[archetype] || 0) + 1;
+  qSelectedOption = null;
+  document.getElementById('qbtn-next').classList.remove('qactive');
+  qCurrentQ++;
+
+  if (qCurrentQ === 6) {
+    qShowTeaserResult();
+  } else if (qCurrentQ >= 12) {
+    qShowFinalResult(false);
+  } else {
+    qRenderQuestion();
+  }
+}
+
+function qStartQuiz() {
+  qShowScreen('qscreen-quiz');
+  qRenderQuestion();
+}
+
+function qShowTeaserResult() {
+  const top = qGetTopTypes(1)[0];
+  const arch = Q_ARCHETYPES[top];
+  document.getElementById('qteaser-type-name').textContent = arch.name;
+  document.getElementById('qteaser-blurb').textContent = arch.short.split('.').slice(0,2).join('.') + '.';
+  qShowScreen('qscreen-teaser');
+}
+
+function qShowEmailGate() {
+  qShowScreen('qscreen-email');
+}
+
+async function qSubmitEmail() {
+  const name = document.getElementById('qinput-name').value.trim();
+  const email = document.getElementById('qinput-email').value.trim();
+  const emailInput = document.getElementById('qinput-email');
+
+  if (!email || !email.includes('@')) {
+    emailInput.style.borderColor = 'var(--crimson)';
+    emailInput.placeholder = 'Please enter a valid email';
+    return;
+  }
+
+  try {
+    await fetch('https://api.convertkit.com/v3/forms/9600635/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        api_key: 'OspDdBfyKCnBanvVK_YOlQ',
+        first_name: name,
+        email: email,
+        tags: ['quiz-taker']
+      })
+    });
+  } catch (e) {
+    console.error('Kit signup error:', e);
+  }
+
+  qShowScreen('qscreen-quiz');
+  qRenderQuestion();
+}
+
+function qShowFinalResult(basic) {
+  qSkipToBasic = basic;
+  const tops = qGetTopTypes(2);
+  const primary = tops[0];
+  const runnerUp = tops[1];
+  const arch = Q_ARCHETYPES[primary];
+  const ruArch = Q_ARCHETYPES[runnerUp];
+
+  document.getElementById('qresult-phase-label').textContent = basic ? 'Your Result (Phase 1 Only)' : 'Your Full Result';
+  document.getElementById('qresult-type-name').textContent = arch.name;
+  document.getElementById('qresult-qtype').textContent = arch.questionType;
+  document.getElementById('qresult-short').textContent = arch.short;
+  document.getElementById('qresult-meeting').textContent = arch.meeting;
+  document.getElementById('qresult-fix').textContent = arch.fix;
+
+  if (!basic && ruArch) {
+    document.getElementById('qrunner-name').textContent = ruArch.name;
+    document.getElementById('qrunner-desc').textContent = ruArch.runnerUpDesc;
+    document.getElementById('qrunner-card').style.display = 'block';
+  } else {
+    document.getElementById('qrunner-card').style.display = 'none';
+  }
+
+  qShowScreen('qscreen-result');
+}
+
+function qGetShareText() {
+  const tops = qGetTopTypes(1);
+  const name = Q_ARCHETYPES[tops[0]]?.name || 'an Ask-Hole';
+  return `I just found out I'm "${name}" on the Which Ask-Hole Are You? quiz 😬 Take it here:`;
+}
+
+function qShareTwitter() {
+  const text = encodeURIComponent(qGetShareText() + ' https://dontbeanaskhole.com');
+  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+}
+
+function qShareLinkedIn() {
+  const url = encodeURIComponent('https://dontbeanaskhole.com');
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+}
+
+function qCopyResult() {
+  const text = qGetShareText() + ' https://dontbeanaskhole.com';
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('qcopy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy Link', 2000);
+  });
+}
+
+function qRetakeQuiz() {
+  qCurrentQ = 0;
+  qSelectedOption = null;
+  Object.keys(qScores).forEach(k => qScores[k] = 0);
+  qShowScreen('qscreen-start');
+}
 </script>
