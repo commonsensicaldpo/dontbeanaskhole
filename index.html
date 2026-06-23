@@ -1146,6 +1146,8 @@ let qCurrentQ = 0;
 let qScores = {};
 let qSelectedOption = null;
 let qSkipToBasic = false;
+let qUserName = '';
+let qUserEmail = '';
 
 Object.keys(Q_ARCHETYPES).forEach(k => qScores[k] = 0);
 
@@ -1248,20 +1250,8 @@ async function qSubmitEmail() {
     return;
   }
 
-  try {
-    await fetch('https://api.convertkit.com/v3/forms/9600635/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        api_key: 'OspDdBfyKCnBanvVK_YOlQ',
-        first_name: name,
-        email: email,
-        tags: ['quiz-taker']
-      })
-    });
-  } catch (e) {
-    console.error('Kit signup error:', e);
-  }
+  qUserName = name;
+  qUserEmail = email;
 
   qShowScreen('qscreen-quiz');
   qRenderQuestion();
@@ -1288,6 +1278,22 @@ function qShowFinalResult(basic) {
     document.getElementById('qrunner-card').style.display = 'block';
   } else {
     document.getElementById('qrunner-card').style.display = 'none';
+  }
+
+  if (qUserEmail) {
+    fetch('https://api.convertkit.com/v3/forms/9600635/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        api_key: 'OspDdBfyKCnBanvVK_YOlQ',
+        first_name: qUserName,
+        email: qUserEmail,
+        fields: {
+          primary_archetype: Q_ARCHETYPES[primary].name,
+          runner_up_archetype: ruArch ? Q_ARCHETYPES[runnerUp].name : ''
+        }
+      })
+    }).catch(e => console.error('Kit signup error:', e));
   }
 
   qShowScreen('qscreen-result');
@@ -1321,6 +1327,8 @@ function qCopyResult() {
 function qRetakeQuiz() {
   qCurrentQ = 0;
   qSelectedOption = null;
+  qUserName = '';
+  qUserEmail = '';
   Object.keys(qScores).forEach(k => qScores[k] = 0);
   qShowScreen('qscreen-start');
 }
