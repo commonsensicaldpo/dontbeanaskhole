@@ -424,6 +424,44 @@
   }
   .qbtn-retake:hover { color: var(--text-dark); }
 
+  /* Scored Quiz */
+  #page-sq { background: var(--navy); min-height: 100vh; }
+  .sq-screen { display: none; }
+  .sq-screen.sqactive { display: block; }
+  .sq-hero { background: var(--navy); padding: 80px 24px 60px; text-align: center; }
+  .sq-hero-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .sq-hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 8vw, 4.5rem); line-height: 1.0; color: white; margin-bottom: 10px; letter-spacing: 0.04em; }
+  .sq-hero-title span { color: var(--crimson); }
+  .sq-hero-sub { font-size: 0.95rem; color: #aac4cf; max-width: 440px; line-height: 1.65; margin: 16px auto 32px; }
+  .sq-hero-meta { display: flex; gap: 24px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+  .sq-hero-meta span { font-size: 0.75rem; color: #aac4cf; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .sq-hero-meta span::before { content: '✓'; color: var(--gold); font-weight: 700; }
+
+  #sqscreen-quiz { background: var(--off-white); padding: 40px 24px 80px; }
+  .sq-progress-wrap { max-width: 660px; margin: 0 auto 28px; }
+  .sq-progress-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .sq-q-count { font-size: 0.78rem; color: var(--text-light); font-weight: 500; }
+  .sq-progress-bar { height: 4px; background: #ddd; border-radius: 2px; overflow: hidden; }
+  .sq-progress-fill { height: 100%; background: var(--crimson); border-radius: 2px; transition: width 0.4s ease; }
+
+  #sqscreen-result { background: var(--off-white); padding: 60px 24px 100px; }
+  .sq-result-inner { max-width: 620px; margin: 0 auto; }
+  .sq-result-score-badge { text-align: center; margin-bottom: 32px; }
+  .sq-result-score-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 1; color: var(--crimson); }
+  .sq-result-score-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); }
+  .sq-result-tier { background: var(--navy); border-radius: 4px; padding: 32px 36px; margin-bottom: 20px; color: white; }
+  .sq-result-tier-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 5vw, 2.8rem); letter-spacing: 0.04em; color: var(--gold); margin-bottom: 12px; line-height: 1.05; }
+  .sq-result-tier p { font-size: 0.9rem; color: #aac4cf; line-height: 1.75; }
+  .sq-result-cta { background: white; border: 1px solid #e0d8ce; border-radius: 4px; padding: 32px 36px; text-align: center; }
+  .sq-result-cta p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 20px; }
+  .sqbtn-retake { display: block; text-align: center; margin-top: 20px; font-size: 0.78rem; color: var(--text-light); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .sqbtn-retake:hover { color: var(--text-dark); }
+
+  @media (max-width: 640px) {
+    .sq-result-tier { padding: 24px 20px; }
+    .sq-result-cta { padding: 24px 20px; }
+  }
+
   @media (max-width: 640px) {
     .qqcard { padding: 24px 18px; }
     .qteaser-upsell { padding: 24px 20px; }
@@ -471,7 +509,8 @@
     <li><a href="#home" onclick="showPage('home')" id="nav-home">Home</a></li>
     <li><a href="#book" onclick="showPage('book')" id="nav-book">Don't Be an Ask-Hole</a></li>
     <li id="nav-boomerang-li" style="display:none"><a href="#boomerang" onclick="showPage('boomerang')" id="nav-boomerang">Free Chapter</a></li>
-    <li><a href="#quiz" onclick="showPage('quiz')" id="nav-quiz">Take the Quiz</a></li>
+    <li><a href="#quiz" onclick="showPage('quiz')" id="nav-quiz">Which Type Are You?</a></li>
+    <li><a href="#areyou" onclick="showPage('areyou')" id="nav-areyou">Are You an Ask-Hole?</a></li>
   </ul>
 </nav>
 
@@ -764,6 +803,61 @@
 </div>
 
 <!-- QUIZ PAGE -->
+<!-- SCORED QUIZ -->
+<div id="page-areyou" class="page">
+
+  <div id="sqscreen-start" class="sq-screen sqactive">
+    <div class="sq-hero">
+      <p class="sq-hero-eyebrow">Quick Self-Assessment</p>
+      <h1 class="sq-hero-title">Are You an <span>Ask-Hole?</span></h1>
+      <p class="sq-hero-sub">7 questions. Instant score. Find out where you fall on the spectrum — then discover your specific type.</p>
+      <div class="sq-hero-meta">
+        <span>Takes 2 minutes</span>
+        <span>No email required</span>
+        <span>Immediate results</span>
+      </div>
+      <button class="btn-primary" style="font-size:1rem;padding:16px 44px;letter-spacing:0.05em;" onclick="sqStart()">Find Out →</button>
+      <p class="qhero-disclaimer" style="margin-top:18px;">Based on <em>Don't Be an Ask-Hole</em> by Deena Chadwick</p>
+    </div>
+  </div>
+
+  <div id="sqscreen-quiz" class="sq-screen">
+    <div class="sq-progress-wrap">
+      <div class="sq-progress-label">
+        <span class="sq-q-count" id="sq-q-count">Question 1 of 7</span>
+      </div>
+      <div class="sq-progress-bar"><div class="sq-progress-fill" id="sq-progress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="qqcard">
+      <div class="qq-number" id="sq-number">01</div>
+      <div class="qq-text" id="sq-text"></div>
+      <div class="qoptions" id="sq-options"></div>
+    </div>
+    <div class="qq-nav">
+      <button class="qbtn-next" id="sq-next-btn" onclick="sqNext()">Next →</button>
+    </div>
+  </div>
+
+  <div id="sqscreen-result" class="sq-screen">
+    <div class="sq-result-inner">
+      <div class="sq-result-score-badge">
+        <div class="sq-result-score-num" id="sq-score-num">0</div>
+        <div class="sq-result-score-label">out of 28</div>
+      </div>
+      <div class="sq-result-tier" id="sq-result-tier">
+        <div class="sq-result-tier-name" id="sq-result-tier-name"></div>
+        <p id="sq-result-tier-desc"></p>
+      </div>
+      <div class="sq-result-cta">
+        <p>Think you know your type? Find out exactly which Ask-Hole you are — and what to do about it.</p>
+        <button class="btn-primary" style="font-size:0.9rem;padding:14px 36px;" onclick="showPage('quiz')">Take the Full Quiz →</button>
+      </div>
+      <span class="sqbtn-retake" onclick="sqRetake()">Retake quiz</span>
+    </div>
+  </div>
+
+</div>
+
 <div id="page-quiz" class="page">
 
   <!-- Start -->
@@ -916,7 +1010,7 @@ window.addEventListener('popstate', function(e) {
 
 function hashPage() {
   const h = location.hash.replace('#', '');
-  return ['home','book','boomerang','quiz'].includes(h) ? h : 'home';
+  return ['home','book','boomerang','quiz','areyou'].includes(h) ? h : 'home';
 }
 
 showPage(hashPage(), false);
@@ -1331,5 +1425,147 @@ function qRetakeQuiz() {
   qUserEmail = '';
   Object.keys(qScores).forEach(k => qScores[k] = 0);
   qShowScreen('qscreen-start');
+}
+
+// --- SCORED QUIZ ---
+const SQ_QUESTIONS = [
+  {
+    text: "You ask a friend for restaurant recommendations. They suggest three places. You:",
+    options: [
+      { text: "Already had a place in mind and just wanted them to confirm it", pts: 3 },
+      { text: "Pick one and make a reservation", pts: 1 },
+      { text: "Ask five more people, get overwhelmed, and order DoorDash", pts: 4 },
+      { text: "Ask three more people just to be sure", pts: 2 }
+    ]
+  },
+  {
+    text: "Your colleague gives you unsolicited feedback. You:",
+    options: [
+      { text: "Smile, nod, and immediately dismiss it", pts: 2 },
+      { text: "Poll the entire office to prove them wrong", pts: 4 },
+      { text: "Ask a leading question to get them to take it back", pts: 3 },
+      { text: "Actually consider it", pts: 1 }
+    ]
+  },
+  {
+    text: "You ask your partner \"do you think I was wrong?\" You:",
+    options: [
+      { text: "Genuinely want to know", pts: 1 },
+      { text: "Will be annoyed if they say yes", pts: 3 },
+      { text: "Have already decided they're wrong for even hesitating", pts: 4 },
+      { text: "Want them to say no", pts: 2 }
+    ]
+  },
+  {
+    text: "Someone is answering your question. You:",
+    options: [
+      { text: "Are already forming your next question and stopped listening", pts: 4 },
+      { text: "Let them finish", pts: 1 },
+      { text: "Interrupt with a better question", pts: 3 },
+      { text: "Finish their sentence for them", pts: 2 }
+    ]
+  },
+  {
+    text: "You asked for advice, got great advice, and didn't take it. How many times this month?",
+    options: [
+      { text: "A few times — the advice wasn't quite right", pts: 3 },
+      { text: "Zero", pts: 1 },
+      { text: "Once, it was a special case", pts: 2 },
+      { text: "Advice is just opinions and opinions are just noise", pts: 4 }
+    ]
+  },
+  {
+    text: "You're in a meeting and someone asks a question you were just about to ask. You:",
+    options: [
+      { text: "Thank them — glad it got asked", pts: 1 },
+      { text: "Ask it again anyway, slightly reworded, so people know you had it too", pts: 3 },
+      { text: "Ask a follow-up question immediately to make sure you get your answer", pts: 4 },
+      { text: "Say \"I was literally just going to ask that\"", pts: 2 }
+    ]
+  },
+  {
+    text: "How long after asking for someone's opinion did you last interrupt them while they were giving it?",
+    options: [
+      { text: "I don't do that", pts: 1 },
+      { text: "Maybe a few sentences in — I could see where it was going", pts: 2 },
+      { text: "Halfway through — they were rambling", pts: 3 },
+      { text: "I asked the question, I think I get to steer the answer", pts: 4 }
+    ]
+  }
+];
+
+const SQ_TIERS = [
+  { min: 7,  max: 11, name: "Squeaky Clean",        desc: "Either you're genuinely self-aware or you're lying. Either way, impressive. Share this with someone who needs it more than you do." },
+  { min: 12, max: 18, name: "Occasional Offender",   desc: "You have your moments. Most people do. The good news? You probably don't even know which moments. The book will help with that." },
+  { min: 19, max: 24, name: "Certified Ask-Hole",    desc: "You ask great questions. You just don't always love the answers. Don't Be An Ask-Hole was written with you in mind." },
+  { min: 25, max: 28, name: "Hall of Fame Ask-Hole", desc: "Remarkable. Truly. You should read the book. You probably won't take the advice. But you should read it." }
+];
+
+let sqCurrentQ = 0;
+let sqSelectedOption = null;
+let sqTotalScore = 0;
+
+function sqShowScreen(id) {
+  document.querySelectorAll('.sq-screen').forEach(s => s.classList.remove('sqactive'));
+  document.getElementById(id).classList.add('sqactive');
+}
+
+function sqStart() {
+  sqCurrentQ = 0;
+  sqSelectedOption = null;
+  sqTotalScore = 0;
+  sqRenderQuestion();
+  sqShowScreen('sqscreen-quiz');
+}
+
+function sqRenderQuestion() {
+  const q = SQ_QUESTIONS[sqCurrentQ];
+  const letters = ['A','B','C','D'];
+  document.getElementById('sq-number').textContent = String(sqCurrentQ + 1).padStart(2, '0');
+  document.getElementById('sq-text').textContent = q.text;
+  document.getElementById('sq-q-count').textContent = `Question ${sqCurrentQ + 1} of ${SQ_QUESTIONS.length}`;
+  document.getElementById('sq-progress-fill').style.width = `${(sqCurrentQ / SQ_QUESTIONS.length) * 100}%`;
+  const btn = document.getElementById('sq-next-btn');
+  btn.classList.remove('qactive');
+  sqSelectedOption = null;
+
+  const opts = document.getElementById('sq-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'qopt-btn';
+    b.innerHTML = `<span class="qopt-inner"><span class="qopt-letter">${letters[i]}</span>${opt.text}</span>`;
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#sq-options .qopt-btn').forEach(x => x.classList.remove('qselected'));
+      b.classList.add('qselected');
+      sqSelectedOption = opt.pts;
+      btn.classList.add('qactive');
+    });
+    opts.appendChild(b);
+  });
+}
+
+function sqNext() {
+  if (sqSelectedOption === null) return;
+  sqTotalScore += sqSelectedOption;
+  sqCurrentQ++;
+  if (sqCurrentQ < SQ_QUESTIONS.length) {
+    sqRenderQuestion();
+  } else {
+    sqShowResult();
+  }
+}
+
+function sqShowResult() {
+  document.getElementById('sq-score-num').textContent = sqTotalScore;
+  const tier = SQ_TIERS.find(t => sqTotalScore >= t.min && sqTotalScore <= t.max) || SQ_TIERS[SQ_TIERS.length - 1];
+  document.getElementById('sq-result-tier-name').textContent = tier.name;
+  document.getElementById('sq-result-tier-desc').textContent = tier.desc;
+  document.getElementById('sq-progress-fill').style.width = '100%';
+  sqShowScreen('sqscreen-result');
+}
+
+function sqRetake() {
+  sqShowScreen('sqscreen-start');
 }
 </script>
