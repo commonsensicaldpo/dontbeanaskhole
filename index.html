@@ -510,7 +510,7 @@
     <li><a href="#book" onclick="showPage('book')" id="nav-book">Don't Be an Ask-Hole</a></li>
     <li id="nav-boomerang-li" style="display:none"><a href="#boomerang" onclick="showPage('boomerang')" id="nav-boomerang">Free Chapter</a></li>
     <li><a href="#quiz" onclick="showPage('quiz')" id="nav-quiz">Which Type Are You?</a></li>
-    <li><a href="#areyou" onclick="showPage('areyou')" id="nav-areyou">Are You an Ask-Hole?</a></li>
+    <li><a href="#sq" onclick="showPage('sq')" id="nav-sq">Are You an Ask-Hole?</a></li>
   </ul>
 </nav>
 
@@ -804,7 +804,7 @@
 
 <!-- QUIZ PAGE -->
 <!-- SCORED QUIZ -->
-<div id="page-areyou" class="page">
+<div id="page-sq" class="page">
 
   <div id="sqscreen-start" class="sq-screen sqactive">
     <div class="sq-hero">
@@ -1010,7 +1010,7 @@ window.addEventListener('popstate', function(e) {
 
 function hashPage() {
   const h = location.hash.replace('#', '');
-  return ['home','book','boomerang','quiz','areyou'].includes(h) ? h : 'home';
+  return ['home','book','boomerang','quiz','sq'].includes(h) ? h : 'home';
 }
 
 showPage(hashPage(), false);
