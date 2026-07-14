@@ -8,8 +8,10 @@
     --gold: #C8960C; --gold-light: #e0a80e; --off-white: #F5F4F0;
     --text-dark: #1a1a1a; --text-mid: #444; --text-light: #888;
   }
-  body { font-family: 'Montserrat', sans-serif; background: var(--off-white); color: var(--text-dark); }
-  .page { display: none; } .page.active { display: block; }
+  body { font-family: 'Montserrat', sans-serif; background: var(--off-white); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
+  nav { flex-shrink: 0; }
+  .page { display: none; } .page.active { display: flex; flex-direction: column; flex: 1; }
+  footer { margin-top: auto; }
 
   nav { background: var(--navy-dark); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
   .nav-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold); letter-spacing: 0.08em; cursor: pointer; }
@@ -300,16 +302,21 @@
     letter-spacing: 0.04em; color: var(--navy-dark); margin-bottom: 18px;
   }
   .qteaser-badge-img {
-    display: block; width: 160px; height: 160px; margin: 8px auto 4px;
+    display: block; width: 210px; height: 210px; margin: 8px auto 0;
   }
-  .qteaser-badge {
-    display: inline-block; background: var(--navy); color: var(--gold);
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.04em;
-    padding: 12px 28px; border-radius: 3px; margin: 6px 0 24px;
+  .qteaser-type-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.7rem, 5vw, 2.3rem);
+    letter-spacing: 0.04em; color: var(--crimson);
+    margin: 10px 0 18px; line-height: 1.05;
   }
   .qteaser-blurb {
     font-size: 0.92rem; color: var(--text-mid); line-height: 1.7;
-    margin-bottom: 32px; max-width: 440px; margin-left: auto; margin-right: auto;
+    margin-bottom: 14px; max-width: 440px; margin-left: auto; margin-right: auto;
+  }
+  .qteaser-hook {
+    font-size: 0.85rem; color: var(--text-light); line-height: 1.6; font-style: italic;
+    max-width: 440px; margin: 0 auto 32px;
   }
   .qteaser-upsell {
     background: var(--navy); color: white; border-radius: 4px; padding: 32px 36px; text-align: left;
@@ -318,13 +325,13 @@
     font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.04em;
     color: white; margin-bottom: 8px;
   }
-  .qteaser-upsell h3 em { font-style: normal; color: var(--gold); }
-  .qteaser-upsell p { font-size: 0.85rem; color: #aac4cf; line-height: 1.65; margin-bottom: 20px; }
+  .qteaser-upsell h3 em { font-style: normal; color: var(--gold-light); }
+  .qteaser-upsell p { font-size: 0.85rem; color: rgba(255,255,255,0.82); line-height: 1.65; margin-bottom: 20px; }
   .qteaser-upsell ul { list-style: none; margin-bottom: 24px; }
   .qteaser-upsell ul li {
-    font-size: 0.82rem; color: #aac4cf; padding: 5px 0 5px 20px; position: relative;
+    font-size: 0.82rem; color: rgba(255,255,255,0.82); padding: 5px 0 5px 20px; position: relative;
   }
-  .qteaser-upsell ul li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+  .qteaser-upsell ul li::before { content: '→'; position: absolute; left: 0; color: var(--gold-light); }
 
   /* Horizontal layout once there's room to spread out */
   @media (min-width: 641px) {
@@ -333,8 +340,9 @@
       display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
     }
     .qteaser-reveal { text-align: center; }
-    .qteaser-badge-img { width: 190px; height: 190px; }
-    .qteaser-blurb { margin-bottom: 0; }
+    .qteaser-badge-img { width: 250px; height: 250px; }
+    .qteaser-blurb { margin-bottom: 14px; }
+    .qteaser-hook { margin-bottom: 0; }
   }
 
   /* Email gate */
@@ -361,10 +369,10 @@
   .qemail-privacy { font-size: 0.7rem; color: var(--text-light); line-height: 1.5; }
   .qemail-privacy a { color: inherit; }
   .qemail-skip {
-    display: block; text-align: center; margin-top: 14px; font-size: 0.77rem;
-    color: var(--text-light); cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+    display: block; text-align: center; margin-top: 14px; font-size: 0.8rem; font-weight: 600;
+    color: rgba(255,255,255,0.75); cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
   }
-  .qemail-skip:hover { color: var(--text-dark); }
+  .qemail-skip:hover { color: white; }
 
   /* Final result */
   #qscreen-result { padding: 40px 24px 60px; }
@@ -847,11 +855,12 @@
   <div id="qscreen-teaser" class="quiz-screen">
     <div class="qteaser-inner">
       <div class="qteaser-reveal">
-        <p class="qteaser-eyebrow">After 6 Questions…</p>
-        <h2 class="qteaser-headline">You're Showing Strong Signs of Being a</h2>
+        <p class="qteaser-eyebrow">Six Questions In…</p>
+        <h2 class="qteaser-headline">You're Already Giving Off Strong</h2>
         <img class="qteaser-badge-img" id="qteaser-badge-img" src="" alt="">
-        <div class="qteaser-badge" id="qteaser-type-name">Loading…</div>
+        <div class="qteaser-type-name" id="qteaser-type-name">Loading…</div>
         <p class="qteaser-blurb" id="qteaser-blurb"></p>
+        <p class="qteaser-hook">That's the trailer. Six more questions decide whether this is the whole story — or just the warm-up.</p>
       </div>
       <div class="qteaser-upsell">
         <h3>Want Your <em>Full Result?</em></h3>
