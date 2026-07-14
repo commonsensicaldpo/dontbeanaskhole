@@ -292,15 +292,13 @@
   /* Teaser */
   #qscreen-teaser { padding: 40px 24px; }
   .qteaser-inner { max-width: 580px; margin: 0 auto; text-align: center; }
-  .qteaser-eyebrow {
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em;
-    text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
-  }
   .qteaser-headline {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    letter-spacing: 0.04em; color: var(--navy-dark); margin-bottom: 18px;
+    font-size: clamp(1.7rem, 4.5vw, 2.6rem);
+    letter-spacing: 0.04em; color: var(--navy-dark); text-align: center;
+    margin-bottom: 28px;
   }
+  .qteaser-columns { text-align: center; }
   .qteaser-badge-img {
     display: block; width: 210px; height: 210px; margin: 8px auto 0;
   }
@@ -335,9 +333,9 @@
 
   /* Horizontal layout once there's room to spread out */
   @media (min-width: 641px) {
-    .qteaser-inner {
-      max-width: 960px; text-align: left;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    .qteaser-inner { max-width: 960px; }
+    .qteaser-columns {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; text-align: left;
     }
     .qteaser-reveal { text-align: center; }
     .qteaser-badge-img { width: 250px; height: 250px; }
@@ -382,22 +380,20 @@
     font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em;
     text-transform: uppercase; color: var(--crimson); margin-bottom: 10px; text-align: center;
   }
-  .qresult-youare {
-    font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.3rem, 3vw, 1.8rem);
-    letter-spacing: 0.04em; color: var(--navy-dark); text-align: center; margin-bottom: 4px;
-  }
   .qresult-badge-img {
     display: block; width: 120px; height: 120px; margin: 10px auto 0;
   }
-  .qresult-type-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2rem, 6vw, 3.4rem);
-    letter-spacing: 0.04em; color: var(--crimson);
-    text-align: center; margin: 8px 0 4px; line-height: 1.05;
-  }
   .qresult-qtype {
     text-align: center; font-size: 0.78rem; color: var(--text-light);
-    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin: 10px 0 12px;
+  }
+  .qresult-lead {
+    font-size: clamp(1.05rem, 2.6vw, 1.35rem); font-weight: 500;
+    color: var(--text-dark); line-height: 1.6; text-align: center;
+  }
+  .qresult-lead-name {
+    font-family: 'Bebas Neue', sans-serif; font-weight: 400;
+    color: var(--crimson); font-size: 1.25em; letter-spacing: 0.03em;
   }
   .qresult-cards { margin-bottom: 20px; }
   .qresult-card {
@@ -459,11 +455,10 @@
       display: flex; align-items: center; gap: 28px; justify-content: center; margin-bottom: 28px;
     }
     .qresult-header-text { text-align: left; }
-    .qresult-eyebrow, .qresult-youare, .qresult-qtype { text-align: left; }
+    .qresult-eyebrow, .qresult-qtype, .qresult-lead { text-align: left; }
     .qresult-badge-img { width: 130px; height: 130px; margin: 0; flex-shrink: 0; }
-    .qresult-type-name { text-align: left; margin: 4px 0; }
     .qresult-cards {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; align-items: stretch;
     }
     .qresult-cards .qresult-card { margin-bottom: 0; }
     .qresult-bottom {
@@ -854,9 +849,9 @@
   <!-- Teaser -->
   <div id="qscreen-teaser" class="quiz-screen">
     <div class="qteaser-inner">
+      <h2 class="qteaser-headline">Six Questions In, You're Already Showing Signs Of</h2>
+      <div class="qteaser-columns">
       <div class="qteaser-reveal">
-        <p class="qteaser-eyebrow">Six Questions In…</p>
-        <h2 class="qteaser-headline">You're Already Giving Off Strong</h2>
         <img class="qteaser-badge-img" id="qteaser-badge-img" src="" alt="">
         <div class="qteaser-type-name" id="qteaser-type-name">Loading…</div>
         <p class="qteaser-blurb" id="qteaser-blurb"></p>
@@ -873,6 +868,7 @@
         </ul>
         <button class="btn-primary" style="width:100%;font-size:0.92rem;padding:15px;" onclick="qShowEmailGate()">Get My Full Result →</button>
         <span class="qemail-skip" onclick="qShowFinalResult(true)">No thanks, show me what I've got</span>
+      </div>
       </div>
     </div>
   </div>
@@ -899,17 +895,12 @@
         <img class="qresult-badge-img" id="qresult-badge-img" src="" alt="">
         <div class="qresult-header-text">
           <p class="qresult-eyebrow" id="qresult-phase-label">Your Full Result</p>
-          <h2 class="qresult-youare">You Are…</h2>
-          <div class="qresult-type-name" id="qresult-type-name"></div>
           <p class="qresult-qtype" id="qresult-qtype"></p>
+          <p class="qresult-lead" id="qresult-lead"></p>
         </div>
       </div>
 
       <div class="qresult-cards">
-        <div class="qresult-card">
-          <h3>🎯 The Short Version</h3>
-          <p id="qresult-short"></p>
-        </div>
         <div class="qresult-card">
           <h3>💼 You in a Meeting</h3>
           <p id="qresult-meeting"></p>
@@ -1354,9 +1345,20 @@ function qShowFinalResult(basic) {
   const resultBadgeImg = document.getElementById('qresult-badge-img');
   resultBadgeImg.src = arch.badge;
   resultBadgeImg.alt = arch.name + ' badge';
-  document.getElementById('qresult-type-name').textContent = arch.name;
   document.getElementById('qresult-qtype').textContent = arch.questionType;
-  document.getElementById('qresult-short').textContent = arch.short;
+
+  const bareName = arch.name.replace(/^The /, '');
+  const article = /^[aeiou]/i.test(bareName) ? 'an' : 'a';
+  const leadRest = arch.short.charAt(0).toLowerCase() + arch.short.slice(1);
+  const leadEl = document.getElementById('qresult-lead');
+  leadEl.textContent = '';
+  leadEl.appendChild(document.createTextNode(`As ${article} `));
+  const nameSpan = document.createElement('span');
+  nameSpan.className = 'qresult-lead-name';
+  nameSpan.textContent = bareName;
+  leadEl.appendChild(nameSpan);
+  leadEl.appendChild(document.createTextNode(`, ${leadRest}`));
+
   document.getElementById('qresult-meeting').textContent = arch.meeting;
   document.getElementById('qresult-fix').textContent = arch.fix;
 
