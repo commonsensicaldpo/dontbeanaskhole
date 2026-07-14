@@ -1,4 +1,4 @@
-
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&family=Lora:ital@0;1&display=swap');
@@ -299,6 +299,9 @@
     font-size: clamp(1.6rem, 4vw, 2.4rem);
     letter-spacing: 0.04em; color: var(--navy-dark); margin-bottom: 18px;
   }
+  .qteaser-badge-img {
+    display: block; width: 120px; height: 120px; margin: 8px auto 4px;
+  }
   .qteaser-badge {
     display: inline-block; background: var(--navy); color: var(--gold);
     font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.04em;
@@ -362,6 +365,9 @@
   .qresult-youare {
     font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.3rem, 3vw, 1.8rem);
     letter-spacing: 0.04em; color: var(--navy-dark); text-align: center; margin-bottom: 4px;
+  }
+  .qresult-badge-img {
+    display: block; width: 180px; height: 180px; margin: 14px auto 0;
   }
   .qresult-type-name {
     font-family: 'Bebas Neue', sans-serif;
@@ -806,6 +812,7 @@
     <div class="qteaser-inner">
       <p class="qteaser-eyebrow">After 6 Questions…</p>
       <h2 class="qteaser-headline">You're Showing Strong Signs of Being a</h2>
+      <img class="qteaser-badge-img" id="qteaser-badge-img" src="" alt="">
       <div class="qteaser-badge" id="qteaser-type-name">Loading…</div>
       <p class="qteaser-blurb" id="qteaser-blurb"></p>
       <div class="qteaser-upsell">
@@ -843,6 +850,7 @@
     <div class="qresult-inner">
       <p class="qresult-eyebrow" id="qresult-phase-label">Your Full Result</p>
       <h2 class="qresult-youare">You Are…</h2>
+      <img class="qresult-badge-img" id="qresult-badge-img" src="" alt="">
       <div class="qresult-type-name" id="qresult-type-name"></div>
       <p class="qresult-qtype" id="qresult-qtype"></p>
 
@@ -931,7 +939,8 @@ const Q_ARCHETYPES = {
     short: "You ask for advice the way other people order appetizers — freely, frequently, and with no real intention of eating them. Your questions aren't requests for information. They're requests for permission you've already granted yourself.",
     meeting: "You open with 'I just want to get everyone's thoughts on this' and then spend the next ten minutes explaining why your approach is correct. You nod thoughtfully at feedback. You implement none of it.",
     fix: "Before you ask for advice next time, ask yourself honestly: am I open to an answer I didn't already have? If not, skip the question and just tell people what you've decided. It's more respectful than performing openness.",
-    runnerUpDesc: "You're not malicious about it — you genuinely believe you're soliciting input. That's what makes it the Serial Advice Seeker's signature move."
+    runnerUpDesc: "You're not malicious about it — you genuinely believe you're soliciting input. That's what makes it the Serial Advice Seeker's signature move.",
+    badge: "images/badge_serial-advice-seeker.png"
   },
   MQ: {
     name: "The Manipulative Questioner",
@@ -939,7 +948,8 @@ const Q_ARCHETYPES = {
     short: "Your questions have a destination. You're not exploring — you're escorting. Every 'what do you think about...' has already been pre-loaded with the answer you want, and you're deeply skilled at making people feel like they arrived there themselves.",
     meeting: "You ask 'Don't you think the timeline is the real issue here?' while looking directly at the person who controls the timeline. Everyone in the room feels slightly maneuvered but can't explain why.",
     fix: "The tell is in your phrasing. Any question that contains the answer — 'isn't it true that,' 'wouldn't you agree,' 'don't you think' — isn't a question. It's a statement in disguise. Rewrite it as a genuine open question and see if you still want to ask it.",
-    runnerUpDesc: "You're strategic. The leading question is your instrument of choice because it lets you steer without appearing to steer."
+    runnerUpDesc: "You're strategic. The leading question is your instrument of choice because it lets you steer without appearing to steer.",
+    badge: "images/badge_manipulative-questioner.png"
   },
   RQ: {
     name: "The Rhetorical Questioner",
@@ -947,7 +957,8 @@ const Q_ARCHETYPES = {
     short: "You ask questions that are really just statements with better delivery. 'Isn't that exactly what I said last quarter?' doesn't need an answer. It needs an audience. You've mastered the art of making a point while technically just asking.",
     meeting: "You pause for effect after your questions, but don't actually pause long enough for anyone to answer. You've timed it so that by the time someone opens their mouth, you've already moved on.",
     fix: "Rhetorical questions land hardest in writing. In conversation, they often land as condescending. Before you deploy one, ask: am I making a point or making a person feel small? If you can't tell the difference in the moment, that's your answer.",
-    runnerUpDesc: "The rhetorical question is a performance tool, and you know exactly how to use it."
+    runnerUpDesc: "The rhetorical question is a performance tool, and you know exactly how to use it.",
+    badge: "images/badge_rhetorical-questioner.png"
   },
   DMD: {
     name: "The Do-My-Work Delegate",
@@ -955,7 +966,8 @@ const Q_ARCHETYPES = {
     short: "Your questions are assignment slips with question marks at the end. 'Do you know anything about this topic?' is you checking whether the person next to you would be willing to become your unpaid researcher. It's efficient. It's also exhausting for everyone in your orbit.",
     meeting: "You end every discussion with a question that somehow leaves everyone else holding the action items. 'So who should probably look into that?' and you're already reaching for your phone.",
     fix: "The test is simple: if answering your question requires someone to do work you could have done yourself, do the work. Questions are for knowledge you genuinely can't access alone — not for outsourcing the fifteen minutes of effort you didn't feel like spending.",
-    runnerUpDesc: "You're efficient, and efficiency is good. The line is asking versus offloading."
+    runnerUpDesc: "You're efficient, and efficiency is good. The line is asking versus offloading.",
+    badge: "images/badge_do-my-work-delegate.png"
   },
   RD: {
     name: "The Reality Distorter",
@@ -963,7 +975,8 @@ const Q_ARCHETYPES = {
     short: "Your questions reframe reality so smoothly that people barely notice the frame has changed. 'Given how well the launch went...' sets up a premise that may or may not be shared by everyone in the room — but now it's the foundation of the conversation.",
     meeting: "You introduce a false premise so naturally that half the room accepts it before the other half finishes blinking. By the time someone questions the premise, you've built an entire argument on top of it.",
     fix: "Start with facts before you start with frames. What do you actually know happened? What's your interpretation of what happened? Those are two different things, and conflating them is where the distortion lives.",
-    runnerUpDesc: "You're a strong communicator — which is exactly what makes this dangerous."
+    runnerUpDesc: "You're a strong communicator — which is exactly what makes this dangerous.",
+    badge: "images/badge_reality-distorter.png"
   },
   AS: {
     name: "The Answer Shopper",
@@ -971,7 +984,8 @@ const Q_ARCHETYPES = {
     short: "You've already gotten an answer. You just didn't like it. So you're asking again — maybe someone else, maybe the same person framed differently — until reality cooperates. You're not seeking information. You're seeking a specific information.",
     meeting: "You brought up the same issue in three separate meetings this month, each time slightly recontextualized, hoping a different group of people would reach a different conclusion. They haven't. You'll try again next quarter.",
     fix: "When you notice you're asking a question you've already asked before, stop and ask why. Did the situation change? Did you learn something new? Or did you just not like the first answer? Two of those are valid reasons to re-ask. One isn't.",
-    runnerUpDesc: "The answer shopper isn't stubborn — they're optimistic. That's a generous read, but it's also accurate."
+    runnerUpDesc: "The answer shopper isn't stubborn — they're optimistic. That's a generous read, but it's also accurate.",
+    badge: "images/badge_answer_shopper.png"
   },
   QB: {
     name: "The Question Boomerang",
@@ -979,7 +993,8 @@ const Q_ARCHETYPES = {
     short: "You return questions like a professional. Someone asks what you think, you ask what they think. Someone asks for your recommendation, you ask what they're leaning toward. It's elegant, it's occasionally appropriate, and it can also be a masterclass in not committing to anything.",
     meeting: "You are excellent at redirecting. 'Great question — what does the team think?' is your signature. Sometimes this is genuine facilitation. Sometimes it's because you really don't want to be wrong.",
     fix: "Returning a question has genuine value — it invites perspective, builds dialogue, keeps conversations two-directional. The issue is when it becomes a habit for avoiding vulnerability. Next time you flip a question back, check: am I inviting, or am I deflecting?",
-    runnerUpDesc: "You live on the bridge between intentional and unintentional. That's a complicated zip code."
+    runnerUpDesc: "You live on the bridge between intentional and unintentional. That's a complicated zip code.",
+    badge: "images/badge_boomerang-questioner.png"
   },
   TFI: {
     name: "The Two-For-One Interrogator",
@@ -987,7 +1002,8 @@ const Q_ARCHETYPES = {
     short: "You ask two, three, sometimes four questions in a single breath, then look at someone expectantly. They answered the last one. You're still waiting on the first two. Nobody wins, and the conversation gets structurally weird.",
     meeting: "You're known for the question that takes longer to ask than to answer — if anyone could figure out which part to answer first. People respond to whichever piece they remembered and hope for the best.",
     fix: "One question, one sentence, one pause. That's the whole fix. It's uncomfortable at first because it slows you down. It's also the fastest route to actually getting an answer.",
-    runnerUpDesc: "This is almost always unintentional — and that's what makes it so common."
+    runnerUpDesc: "This is almost always unintentional — and that's what makes it so common.",
+    badge: "images/badge_two-for-one-interrogator.png"
   },
   SQ: {
     name: "The Sarcastic Questioner",
@@ -995,7 +1011,8 @@ const Q_ARCHETYPES = {
     short: "Your humor is dry, your delivery is flat, and approximately half your questions are jokes that only you know are jokes. The other half are serious questions delivered in a tone that makes people unsure whether to laugh or answer.",
     meeting: "'Is this the fourth time we've discussed this or the fifth?' is a genuine question, a rhetorical indictment, and a joke all at once, and only you know the ratio. Everyone else is watching the room for cues.",
     fix: "The calibration issue is real. Your instinct is good — levity matters, especially in tense meetings — but the ambiguity is a tax on your audience. A slight vocal shift or one eyebrow raise can do the labeling work without killing the joke.",
-    runnerUpDesc: "You're not trying to confuse anyone. You've just been doing this so long you forgot it reads differently to the outside."
+    runnerUpDesc: "You're not trying to confuse anyone. You've just been doing this so long you forgot it reads differently to the outside.",
+    badge: "images/badge_sarcastic-questioner.png"
   },
   BB: {
     name: "The Brain Baffler",
@@ -1003,7 +1020,8 @@ const Q_ARCHETYPES = {
     short: "Your questions carry a lot of luggage. Background, context, caveats, qualifications — by the time you get to the actual question, the person you're asking has been listening for two minutes and has forgotten the beginning of the sentence.",
     meeting: "People smile and nod while you're winding up. At least one person takes notes just to have something to do with their hands. The question, when it finally arrives, is usually good. It just arrives so thoroughly wrapped that nobody noticed.",
     fix: "Lead with the question, follow with the context. 'What should we do about X? Here's the background:' is a completely different experience than two paragraphs of setup followed by 'so… yeah, what do you think?' The answer is the same. The comprehension rate is not.",
-    runnerUpDesc: "You're thorough. Thoroughness is a strength. It's also, occasionally, an ambush."
+    runnerUpDesc: "You're thorough. Thoroughness is a strength. It's also, occasionally, an ambush.",
+    badge: "images/badge_brain-baffler.png"
   },
   VB: {
     name: "The Vague-a-Bond",
@@ -1011,7 +1029,8 @@ const Q_ARCHETYPES = {
     short: "Your questions are open to interpretation. Very open. 'What do you think we should do going forward?' is a question that could generate seventeen different answers across seventeen different time horizons, and you'll receive all of them, and they will not be what you needed.",
     meeting: "You leave discussions energized by alignment that wasn't actually alignment. Everyone agreed things should 'improve' and 'move faster.' Nobody defined improve or faster. The next meeting will cover this.",
     fix: "Before asking, answer these for yourself: what specifically do I want to know, about what situation, by what point in time? Once you can answer those, you can ask a question that someone else can actually answer.",
-    runnerUpDesc: "Vagueness usually comes from asking before fully forming the thought. The fix is doing that last ten seconds of thinking first."
+    runnerUpDesc: "Vagueness usually comes from asking before fully forming the thought. The fix is doing that last ten seconds of thinking first.",
+    badge: "images/badge_vague-a-bond.png"
   },
   WW: {
     name: "The Wondering Wonderer",
@@ -1019,7 +1038,8 @@ const Q_ARCHETYPES = {
     short: "You start asking a question and get a little lost along the way. You discover what you're asking as you're asking it, which is actually a valid cognitive process — just not one your audience signed up to witness in real time.",
     meeting: "Heads tilt. Pens pause. Someone glances at the clock. You can see the moment the room realizes you haven't gotten to the question yet and the question may, in fact, still be in development.",
     fix: "Pause before you speak. Not long — three seconds. Use it to complete the sentence in your head before saying it out loud. What are you actually asking? Name it. Then ask it. The thinking can happen silently.",
-    runnerUpDesc: "You're not being inconsiderate. You process out loud. This is a communication style, not a character flaw — it just needs some editing."
+    runnerUpDesc: "You're not being inconsiderate. You process out loud. This is a communication style, not a character flaw — it just needs some editing.",
+    badge: "images/badge_wondering-wonderer.png"
   },
   IP: {
     name: "The Interrupting Pre-Empter",
@@ -1027,7 +1047,8 @@ const Q_ARCHETYPES = {
     short: "You ask before you know enough to ask. While someone is still explaining, you've already generated a question — and asked it — based on information that was about to be provided anyway. Half your questions answer themselves in the next thirty seconds.",
     meeting: "Someone starts a presentation. You have a question by slide three. By slide six, it would have been answered. You asked it on slide three. This happens at least twice per meeting.",
     fix: "The discipline is staying in receive mode longer. Not forever — genuine questions midstream are valuable. But the question to ask yourself before speaking is: 'Is this answer coming?' If you don't know yet, wait. You'll either get the answer, or you'll get a better question.",
-    runnerUpDesc: "You're curious and engaged. The interruption is a side effect of caring. That's worth something — it just needs a beat more patience."
+    runnerUpDesc: "You're curious and engaged. The interruption is a side effect of caring. That's worth something — it just needs a beat more patience.",
+    badge: "images/badge_interrupting-preempter.png"
   }
 };
 
@@ -1232,6 +1253,9 @@ function qShowTeaserResult() {
   const arch = Q_ARCHETYPES[top];
   document.getElementById('qteaser-type-name').textContent = arch.name;
   document.getElementById('qteaser-blurb').textContent = arch.short.split('.').slice(0,2).join('.') + '.';
+  const teaserBadgeImg = document.getElementById('qteaser-badge-img');
+  teaserBadgeImg.src = arch.badge;
+  teaserBadgeImg.alt = arch.name + ' badge';
   qShowScreen('qscreen-teaser');
 }
 
@@ -1266,6 +1290,9 @@ function qShowFinalResult(basic) {
   const ruArch = Q_ARCHETYPES[runnerUp];
 
   document.getElementById('qresult-phase-label').textContent = basic ? 'Your Result (Phase 1 Only)' : 'Your Full Result';
+  const resultBadgeImg = document.getElementById('qresult-badge-img');
+  resultBadgeImg.src = arch.badge;
+  resultBadgeImg.alt = arch.name + ' badge';
   document.getElementById('qresult-type-name').textContent = arch.name;
   document.getElementById('qresult-qtype').textContent = arch.questionType;
   document.getElementById('qresult-short').textContent = arch.short;
