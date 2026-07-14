@@ -1,5 +1,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Don't Be an Ask-Hole | Deena Chadwick</title>
+<meta name="description" content="A field guide to the 13 archetypes who misuse questions — and the free quiz that tells you which one you are.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dontbeanaskhole.com">
+<meta property="og:title" content="Which Ask-Hole Are You?">
+<meta property="og:description" content="13 question archetypes. One uncomfortable truth. Take the free quiz and find out which Ask-Hole you are.">
+<meta property="og:image" content="https://dontbeanaskhole.com/images/askhole_bookcover_3d.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Which Ask-Hole Are You?">
+<meta name="twitter:description" content="13 question archetypes. One uncomfortable truth. Take the free quiz and find out which Ask-Hole you are.">
+<meta name="twitter:image" content="https://dontbeanaskhole.com/images/askhole_bookcover_3d.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&family=Lora:ital@0;1&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1215,6 +1226,7 @@ let qSelectedOption = null;
 let qSkipToBasic = false;
 let qUserName = '';
 let qUserEmail = '';
+let qCurrentResultArchetype = null;
 
 Object.keys(Q_ARCHETYPES).forEach(k => qScores[k] = 0);
 
@@ -1340,6 +1352,7 @@ function qShowFinalResult(basic) {
   const runnerUp = tops[1];
   const arch = Q_ARCHETYPES[primary];
   const ruArch = Q_ARCHETYPES[runnerUp];
+  qCurrentResultArchetype = primary;
 
   document.getElementById('qresult-phase-label').textContent = basic ? 'Your Result (Phase 1 Only)' : 'Your Full Result';
   const resultBadgeImg = document.getElementById('qresult-badge-img');
@@ -1390,8 +1403,7 @@ function qShowFinalResult(basic) {
 }
 
 function qGetShareText() {
-  const tops = qGetTopTypes(1);
-  const name = Q_ARCHETYPES[tops[0]]?.name || 'an Ask-Hole';
+  const name = Q_ARCHETYPES[qCurrentResultArchetype]?.name || 'an Ask-Hole';
   return `I just found out I'm "${name}" on the Which Ask-Hole Are You? quiz 😬 Take it here:`;
 }
 
@@ -1405,13 +1417,39 @@ function qShareLinkedIn() {
   window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
 }
 
+function qFallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}
+
 function qCopyResult() {
   const text = qGetShareText() + ' https://dontbeanaskhole.com';
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('qcopy-btn');
+  const btn = document.getElementById('qcopy-btn');
+  const showCopied = () => {
     btn.textContent = '✓ Copied!';
     setTimeout(() => btn.textContent = 'Copy Link', 2000);
-  });
+  };
+  const showFailed = () => {
+    btn.textContent = 'Copy failed — select & copy manually';
+    setTimeout(() => btn.textContent = 'Copy Link', 3000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(showCopied, () => {
+      qFallbackCopy(text) ? showCopied() : showFailed();
+    });
+  } else {
+    qFallbackCopy(text) ? showCopied() : showFailed();
+  }
 }
 
 function qRetakeQuiz() {
