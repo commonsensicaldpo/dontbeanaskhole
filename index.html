@@ -1114,7 +1114,7 @@ const Q_QUESTIONS = [
       { text: "Nod along while mentally moving on.", archetype: "SAP" },
       { text: "Ask a question that steers the group toward agreeing it's fine.", archetype: "MQ" },
       { text: "Say 'well, isn't this basically what we decided last time?' — half joking, half not.", archetype: "RQ" },
-      { text: "Ask your colleague next to you what they think, privately hoping they'll just validate you.", archetype: "SAP" }
+      { text: "Say 'Sounds great, love it, truly groundbreaking' with a completely straight face.", archetype: "SQ" }
     ]
   },
   {
@@ -1122,7 +1122,7 @@ const Q_QUESTIONS = [
     options: [
       { text: "Ask it immediately — it might change where they're going.", archetype: "IP" },
       { text: "Write it down and wait.", archetype: "WW" },
-      { text: "Ask it, and then realize the next sentence answered it. Shrug.", archetype: "IP" },
+      { text: "Ask it, but really you just want them to confirm the answer you'd already landed on.", archetype: "SAP" },
       { text: "Wait, but start visibly formulating the question while they talk.", archetype: "BB" }
     ]
   },
@@ -1130,7 +1130,7 @@ const Q_QUESTIONS = [
     text: "You've been told the deadline can't move. You don't love that answer. You:",
     options: [
       { text: "Ask someone else — maybe they have more flexibility.", archetype: "AS" },
-      { text: "Bring it up again at the next meeting with slightly different framing.", archetype: "AS" },
+      { text: "Ask a teammate to raise it with the client instead, since 'they're better at that conversation.'", archetype: "DMD" },
       { text: "Say 'so you're saying there's truly no room at all?' in a way that technically asks again.", archetype: "MQ" },
       { text: "Accept it, but mention it one more time 'just to make sure everyone's aligned.'", archetype: "RD" }
     ]
@@ -1139,8 +1139,8 @@ const Q_QUESTIONS = [
     text: "You need research done on a competitor. You have time to do it yourself. You:",
     options: [
       { text: "Email three people asking if they 'happen to know anything' about it.", archetype: "DMD" },
-      { text: "Ask your intern to put together a summary.", archetype: "DMD" },
-      { text: "Open a browser, type two words, then close it and send an email instead.", archetype: "DMD" },
+      { text: "Ask around the team before you've even opened a browser tab.", archetype: "IP" },
+      { text: "Ask 'does anyone already know this off the top of their head?' already fairly sure the answer is no.", archetype: "SQ" },
       { text: "Do it yourself but send a Slack message asking if anyone has 'a quick take' while you're at it.", archetype: "TFI" }
     ]
   },
@@ -1159,7 +1159,7 @@ const Q_QUESTIONS = [
       { text: "Ask them what they think first, then decide if you agree.", archetype: "QB" },
       { text: "Give a very thorough answer that covers all possible angles. Comprehensively.", archetype: "BB" },
       { text: "Ask a clarifying question about their question before answering their question.", archetype: "VB" },
-      { text: "Answer confidently but pivot with 'what's your take?' the moment you finish.", archetype: "QB" }
+      { text: "Ask a colleague to weigh in first since 'they probably have a stronger take anyway.'", archetype: "DMD" }
     ]
   },
   {
@@ -1176,7 +1176,7 @@ const Q_QUESTIONS = [
     options: [
       { text: "Repeat it. Same length. Same structure.", archetype: "BB" },
       { text: "Shorten it this time — you realize you buried it.", archetype: "WW" },
-      { text: "Apologize and say 'sorry, I ramble' and then start again, rambling slightly less.", archetype: "WW" },
+      { text: "Say 'don't worry about it, it wasn't important' — it was.", archetype: "SQ" },
       { text: "Ask them what part they missed, somehow generating a second question in the process.", archetype: "TFI" }
     ]
   },
@@ -1202,7 +1202,7 @@ const Q_QUESTIONS = [
     text: "In a brainstorm, you have a fully formed idea but frame it as a question: 'Has anyone thought about just doing X?' You do this because:",
     options: [
       { text: "If it bombs, it wasn't really your idea.", archetype: "QB" },
-      { text: "You want to see if anyone else came to the same place before you claim it.", archetype: "QB" },
+      { text: "Blurt it out mid-sentence before anyone else finishes their thought, question mark included.", archetype: "IP" },
       { text: "It sounds more collaborative as a question.", archetype: "MQ" },
       { text: "You genuinely weren't sure — it came out as a question because you were still thinking.", archetype: "WW" }
     ]
@@ -1212,7 +1212,7 @@ const Q_QUESTIONS = [
     options: [
       { text: "'Despite the challenging conditions this quarter…' before showing the numbers.", archetype: "RD" },
       { text: "'Interesting results — what does the team think drove this?' without stating your own read.", archetype: "QB" },
-      { text: "'As we can see from the data, the approach was validated…' based on one favorable metric.", archetype: "RD" },
+      { text: "Ask someone else on the team to write the summary so the framing isn't 'on you.'", archetype: "DMD" },
       { text: "Just the numbers. No frame. (People can decide what they mean.)", archetype: "VB" }
     ]
   }
@@ -1228,7 +1228,13 @@ let qUserEmail = '';
 Object.keys(Q_ARCHETYPES).forEach(k => qScores[k] = 0);
 
 function qGetTopTypes(n) {
-  return Object.entries(qScores)
+  const entries = Object.entries(qScores);
+  // shuffle first so tied scores don't always resolve to the same archetype
+  for (let i = entries.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [entries[i], entries[j]] = [entries[j], entries[i]];
+  }
+  return entries
     .sort((a,b) => b[1] - a[1])
     .slice(0, n)
     .map(e => e[0]);
