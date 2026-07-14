@@ -353,8 +353,15 @@
   .qemail-skip:hover { color: var(--text-dark); }
 
   /* Final result */
-  #qscreen-result { padding: 60px 24px 100px; }
-  .qresult-inner { max-width: 660px; margin: 0 auto; }
+  #qscreen-result { padding: 40px 24px 80px; }
+  .qresult-inner { max-width: 1100px; margin: 0 auto; }
+  .qresult-header { text-align: center; margin-bottom: 32px; }
+  .qresult-columns { display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start; }
+  .qresult-sidebar { position: sticky; top: 80px; }
+  @media (max-width: 860px) {
+    .qresult-columns { grid-template-columns: 1fr; }
+    .qresult-sidebar { position: static; }
+  }
   .qresult-eyebrow {
     font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em;
     text-transform: uppercase; color: var(--crimson); margin-bottom: 10px; text-align: center;
@@ -935,45 +942,53 @@
   <!-- Final result -->
   <div id="qscreen-result" class="quiz-screen">
     <div class="qresult-inner">
-      <p class="qresult-eyebrow" id="qresult-phase-label">Your Full Result</p>
-      <h2 class="qresult-youare">You Are…</h2>
-      <div class="qresult-type-name" id="qresult-type-name"></div>
-      <p class="qresult-qtype" id="qresult-qtype"></p>
-
-      <div class="qresult-card">
-        <h3>🎯 The Short Version</h3>
-        <p id="qresult-short"></p>
-      </div>
-      <div class="qresult-card">
-        <h3>💼 You in a Meeting</h3>
-        <p id="qresult-meeting"></p>
-      </div>
-      <div class="qresult-card">
-        <h3>💡 What To Do About It</h3>
-        <p id="qresult-fix"></p>
-      </div>
-      <div class="qresult-card runner-up" id="qrunner-card">
-        <span class="qrunner-label">Your Runner-Up Type</span>
-        <div class="qrunner-name" id="qrunner-name"></div>
-        <p id="qrunner-desc"></p>
+      <div class="qresult-header">
+        <p class="qresult-eyebrow" id="qresult-phase-label">Your Full Result</p>
+        <h2 class="qresult-youare">You Are…</h2>
+        <div class="qresult-type-name" id="qresult-type-name"></div>
+        <p class="qresult-qtype" id="qresult-qtype"></p>
       </div>
 
-      <div class="qresult-share">
-        <p>Share Your Result</p>
-        <div class="qshare-btns">
-          <button class="qshare-btn twitter" onclick="qShareTwitter()">Share on X</button>
-          <button class="qshare-btn linkedin" onclick="qShareLinkedIn()">Share on LinkedIn</button>
-          <button class="qshare-btn copy-link" id="qcopy-btn" onclick="qCopyResult()">Copy Link</button>
+      <div class="qresult-columns">
+        <div class="qresult-main">
+          <div class="qresult-card">
+            <h3>🎯 The Short Version</h3>
+            <p id="qresult-short"></p>
+          </div>
+          <div class="qresult-card">
+            <h3>💼 You in a Meeting</h3>
+            <p id="qresult-meeting"></p>
+          </div>
+          <div class="qresult-card">
+            <h3>💡 What To Do About It</h3>
+            <p id="qresult-fix"></p>
+          </div>
+          <div class="qresult-card runner-up" id="qrunner-card">
+            <span class="qrunner-label">Your Runner-Up Type</span>
+            <div class="qrunner-name" id="qrunner-name"></div>
+            <p id="qrunner-desc"></p>
+          </div>
+        </div>
+
+        <div class="qresult-sidebar">
+          <div class="qbook-cta" style="margin-bottom:16px;">
+            <h3>Read the Whole <em>Taxonomy of Terrible Questions.</em></h3>
+            <p>All 13 Ask-Hole types, their signature moves, and exactly what to do when you spot one — including in the mirror.</p>
+            <a class="btn-gold" href="https://www.amazon.com/dp/B0H67WL24V" target="_blank" style="color:white;text-decoration:none;display:inline-block;">Get the Book on Amazon</a>
+          </div>
+
+          <div class="qresult-share">
+            <p>Share Your Result</p>
+            <div class="qshare-btns" style="flex-direction:column;">
+              <button class="qshare-btn twitter" onclick="qShareTwitter()">Share on X</button>
+              <button class="qshare-btn linkedin" onclick="qShareLinkedIn()">Share on LinkedIn</button>
+              <button class="qshare-btn copy-link" id="qcopy-btn" onclick="qCopyResult()">Copy Link</button>
+            </div>
+          </div>
+
+          <span class="qbtn-retake" onclick="qRetakeQuiz()">↺ Take the quiz again</span>
         </div>
       </div>
-
-      <div class="qbook-cta">
-        <h3>Read the Whole <em>Taxonomy of Terrible Questions.</em></h3>
-        <p>All 13 Ask-Hole types, their signature moves, and exactly what to do when you spot one — including in the mirror.</p>
-        <a class="btn-gold" href="https://www.amazon.com/dp/B0H67WL24V" target="_blank" style="color:white;text-decoration:none;display:inline-block;">Get the Book on Amazon</a>
-      </div>
-
-      <span class="qbtn-retake" onclick="qRetakeQuiz()">↺ Take the quiz again</span>
     </div>
   </div>
 
