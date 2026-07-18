@@ -32,9 +32,9 @@
 
     <script>
         // CONFIGURATION
-        const TOKEN = "YOUR_GITHUB_TOKEN"; 
-        const OWNER = "YOUR_USERNAME";
-        const REPO = "YOUR_REPO_NAME";
+        const TOKEN = "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"; 
+        const OWNER = "commonsensicaldpo";
+        const REPO = "dontbeanaskhole";
         const FILE_PATH = "data.json"; // Target file inside repository
 
         document.getElementById('gitForm').addEventListener('submit', async (e) => {
