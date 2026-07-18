@@ -526,7 +526,7 @@ const CHANNEL_BADGES = {
 };
 
 const TYPE_SYMBOLS = {
-  "Post":"◈","Email":"✉","Review":"★","Listing":"▦","Comment":"◉","Published":"◎","Other":"•"
+  "Post":"P","Email":"E","Review":"R","Listing":"L","Comment":"C","Published":"Pb","Other":"-"
 };
 
 function uid() { return Math.random().toString(36).slice(2,10); }
@@ -610,7 +610,7 @@ const emptyForm = () => ({
   effort: "", channel: "LinkedIn", type: "Post",
   status: "not_started",
   date: new Date().toISOString().slice(0,10),
-  spend: "", result: "", notes: "", url: "",
+  spend: "", result: "", resultBasis: "", notes: "", url: "",
 });
 let form = emptyForm();
 
@@ -648,11 +648,11 @@ function makeBadge(channel) {
 // ── Render ───────────────────────────────────────────────────────────────────
 function renderSummary() {
   const counts = { not_started:0, in_progress:0, done:0 };
-  let totalSpend = 0, totalResult = 0;
+  let totalSpend = 0, resultCount = 0;
   entries.forEach(e => {
     counts[e.status]++;
-    totalSpend  += Number(e.spend)  || 0;
-    totalResult += Number(e.result) || 0;
+    totalSpend += Number(e.spend) || 0;
+    if ((Number(e.result) || 0) > 0) resultCount++;
   });
 
   const row = document.getElementById('summary-row');
@@ -662,7 +662,7 @@ function renderSummary() {
     { key:'in_progress', val: counts.in_progress, label: 'In progress' },
     { key:'done',        val: counts.done,         label: 'Done' },
     { key:'spend',       val: `$${totalSpend.toLocaleString()}`, label: 'Total spend', color:'#6B7280' },
-    { key:'result',      val: totalResult.toLocaleString(),      label: 'Total results', color:'#6B7280' },
+    { key:'result',      val: resultCount,                       label: 'With results', color:'#6B7280' },
   ].forEach(item => {
     const color = item.color || STATUS[item.key]?.color || '#6B7280';
     const card = document.createElement('div');
@@ -691,8 +691,9 @@ function renderForm() {
     { type:'select', key:'status',  options: Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
     { type:'date',   key:'date' },
     { type:'number', key:'spend',   placeholder:'Spend ($)' },
-    { type:'number', key:'result',  placeholder:'Result (clicks/leads/etc.)' },
-    { type:'text',   key:'notes',   placeholder:'Notes', full:true },
+    { type:'number', key:'result',      placeholder:'Result amount' },
+    { type:'text',   key:'resultBasis', placeholder:'Unit (clicks, sales, $…)' },
+    { type:'text',   key:'notes',       placeholder:'Notes', full:true },
     { type:'url',    key:'url',     placeholder:'Link (artifact, chat, doc…)', full:true },
   ];
 
@@ -802,8 +803,9 @@ function renderBoard() {
             { type:'select', key:'status',  label:'Status', options:Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
             { type:'date',   key:'date',    label:'Date' },
             { type:'number', key:'spend',   label:'Spend ($)' },
-            { type:'number', key:'result',  label:'Result' },
-            { type:'text',   key:'notes',   label:'Notes', full:true },
+            { type:'number', key:'result',      label:'Result amount' },
+            { type:'text',   key:'resultBasis', label:'Result unit (clicks, sales, $…)' },
+            { type:'text',   key:'notes',       label:'Notes', full:true },
             { type:'url',    key:'url',     label:'Link (artifact, chat, doc…)', full:true },
           ];
           fields.forEach(f => {
@@ -861,7 +863,8 @@ function renderBoard() {
           if (e.spend > 0 || e.result > 0) {
             const nums = document.createElement('div');
             nums.className = 'entry-nums';
-            nums.textContent = `$${Number(e.spend).toLocaleString()} spent → ${Number(e.result).toLocaleString()} results`;
+            const resultStr = Number(e.result).toLocaleString() + (e.resultBasis ? ' ' + e.resultBasis : '');
+            nums.textContent = `$${Number(e.spend).toLocaleString()} spent → ${resultStr}`;
             details.appendChild(nums);
           }
 
@@ -964,6 +967,7 @@ async function addEntry() {
     date: form.date,
     spend: Number(form.spend) || 0,
     result: Number(form.result) || 0,
+    resultBasis: (form.resultBasis || '').trim(),
     notes: form.notes.trim(),
     url: (form.url || '').trim(),
   };
@@ -1009,6 +1013,7 @@ async function saveEdit(id) {
     ts: Date.now(),
     spend: Number(editForm.spend) || 0,
     result: Number(editForm.result) || 0,
+    resultBasis: (editForm.resultBasis || '').trim(),
     effort: editForm.effort.trim(),
     notes: (editForm.notes || '').trim(),
   };
