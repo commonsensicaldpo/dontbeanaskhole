@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Notified | Don't Be an Ask-Hole</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&family=Lora:ital@0;1&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy-dark: #0d2e3a; --crimson: #bd1313; --gold: #C8960C;
+    --off-white: #F5F4F0; --text-dark: #1a1a1a; --text-mid: #444;
+  }
+  body { font-family: 'Montserrat', sans-serif; background: var(--off-white); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
+
+  nav { background: var(--navy-dark); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+  nav a { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.04em; }
+  nav .nav-links a { margin-left: 1.5rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
+  nav .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 1rem; }
+
+  .card {
+    background: #fff;
+    border-top: 5px solid var(--crimson);
+    border-radius: 4px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    max-width: 480px;
+    width: 100%;
+    padding: 2.5rem 2.5rem 2rem;
+  }
+  .card h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: var(--crimson); letter-spacing: 0.04em; line-height: 1; margin-bottom: 0.4rem; }
+  .card p { color: var(--text-mid); font-size: 0.92rem; margin-bottom: 1.8rem; line-height: 1.6; }
+
+  label { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 0.35rem; }
+  input, select, textarea {
+    width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid #ddd; border-radius: 3px;
+    font-family: 'Montserrat', sans-serif; font-size: 0.92rem; color: var(--text-dark);
+    background: #fafafa; transition: border-color 0.2s;
+    margin-bottom: 1.2rem;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--crimson); background: #fff; }
+  textarea { resize: vertical; min-height: 90px; }
+
+  .field { margin-bottom: 0; }
+
+  button[type="submit"] {
+    width: 100%; padding: 0.85rem; background: var(--crimson); color: #fff;
+    border: none; border-radius: 3px; font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem; letter-spacing: 0.08em; cursor: pointer; transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+  button[type="submit"]:hover { background: #a00f0f; }
+  button[type="submit"]:disabled { background: #aaa; cursor: not-allowed; }
+
+  #status { margin-top: 1rem; font-size: 0.88rem; font-weight: 600; text-align: center; min-height: 1.4em; }
+  #status.success { color: #1a7a1a; }
+  #status.error { color: var(--crimson); }
+
+  footer { text-align: center; padding: 1.2rem; font-size: 0.78rem; color: #999; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/">Don't Be an Ask-Hole</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/tracker">Quiz</a>
+  </div>
+</nav>
+
+<main>
+  <div class="card">
+    <h1>Stay in the Loop</h1>
+    <p>Get notified when the book drops, plus early-access insights on the 13 Ask-Hole archetypes.</p>
+
+    <form id="signupForm">
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="archetype">Which Ask-Hole are you? (optional)</label>
+        <select id="archetype" name="archetype">
+          <option value="">— I haven't taken the quiz yet —</option>
+          <option>The Validator</option>
+          <option>The Interrogator</option>
+          <option>The Rhetorician</option>
+          <option>The Passive-Aggressive Asker</option>
+          <option>The Martyr</option>
+          <option>The Helpless Helper</option>
+          <option>The Oversharer</option>
+          <option>The Narcissist</option>
+          <option>The Devil's Advocate</option>
+          <option>The Conspiracy Theorist</option>
+          <option>The Minimizer</option>
+          <option>The Ghoster</option>
+          <option>The Bottomless Pit</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="note">Anything to add? (optional)</label>
+        <textarea id="note" name="note" placeholder="A thought, a question, a confession…"></textarea>
+      </div>
+      <button type="submit" id="submitBtn">Submit</button>
+      <div id="status"></div>
+    </form>
+  </div>
+</main>
+
+<footer>&copy; 2026 Deena Chadwick · dontbeanaskhole.com</footer>
+
+<script>
+  // ── Configuration ────────────────────────────────────────────────────────────
+  // Paste your fine-grained GitHub token here (see README for setup steps).
+  // Scope needed: Contents → Read and write  (repo: commonsensicaldpo/dontbeanaskhole)
+  const GITHUB_TOKEN  = '';          // e.g. 'github_pat_...'
+  const GITHUB_OWNER  = 'commonsensicaldpo';
+  const GITHUB_REPO   = 'dontbeanaskhole';
+  const DATA_FILE     = 'data.json';
+  const BRANCH        = 'main';
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  const API = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE}`;
+
+  async function getFile() {
+    const res = await fetch(`${API}?ref=${BRANCH}`, {
+      headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github+json' }
+    });
+    if (!res.ok) throw new Error(`GitHub read failed: ${res.status}`);
+    return res.json(); // { content, sha }
+  }
+
+  async function saveEntry(entry) {
+    const file   = await getFile();
+    const current = JSON.parse(atob(file.content.replace(/\n/g, '')));
+    current.push(entry);
+
+    const body = JSON.stringify({
+      message: `New form submission – ${entry.email}`,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2)))),
+      sha:     file.sha,
+      branch:  BRANCH
+    });
+
+    const res = await fetch(API, {
+      method:  'PUT',
+      headers: {
+        Authorization:  `Bearer ${GITHUB_TOKEN}`,
+        Accept:         'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || `GitHub write failed: ${res.status}`);
+    }
+  }
+
+  document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn    = document.getElementById('submitBtn');
+    const status = document.getElementById('status');
+    status.textContent = '';
+    status.className   = '';
+
+    if (!GITHUB_TOKEN) {
+      status.textContent = 'Form not configured yet — token missing.';
+      status.className   = 'error';
+      return;
+    }
+
+    btn.disabled       = true;
+    btn.textContent    = 'Saving…';
+
+    const entry = {
+      timestamp: new Date().toISOString(),
+      name:      document.getElementById('name').value.trim(),
+      email:     document.getElementById('email').value.trim(),
+      archetype: document.getElementById('archetype').value,
+      note:      document.getElementById('note').value.trim()
+    };
+
+    try {
+      await saveEntry(entry);
+      status.textContent = 'You\'re in! Thanks for signing up.';
+      status.className   = 'success';
+      e.target.reset();
+    } catch (err) {
+      status.textContent = `Something went wrong: ${err.message}`;
+      status.className   = 'error';
+      console.error(err);
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = 'Submit';
+    }
+  });
+</script>
+</body>
+</html>
