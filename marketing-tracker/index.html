@@ -140,27 +140,37 @@ button { cursor: pointer; font-family: var(--font-body); }
   font-family: var(--font-display);
   font-weight: 600;
 }
-.edit-form { padding: 10px 12px 12px; border-top: 1px solid var(--border); }
+.edit-form { padding: 14px 14px 14px; border-top: 1px solid var(--border); }
 .edit-form-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 14px;
+  margin-bottom: 12px;
+}
+.edit-field { display: flex; flex-direction: column; gap: 5px; }
+.edit-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
 }
 .edit-form-grid input,
 .edit-form-grid select {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 7px 9px;
+  padding: 9px 11px;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
   outline: none;
   width: 100%;
 }
+.edit-form-grid input:focus,
+.edit-form-grid select:focus { border-color: var(--accent); }
 .edit-form-grid select option { background: var(--bg); }
-.edit-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.edit-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
 @media (max-width: 700px) { .edit-form-grid { grid-template-columns: 1fr; } }
 .entry-link {
   font-size: 12px;
@@ -786,17 +796,26 @@ function renderBoard() {
           grid.className = 'edit-form-grid';
 
           const fields = [
-            { type:'text',   key:'effort',  placeholder:'Effort name', full:true },
-            { type:'select', key:'channel', options:CHANNELS },
-            { type:'select', key:'type',    options:TYPES },
-            { type:'select', key:'status',  options:Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
-            { type:'date',   key:'date' },
-            { type:'number', key:'spend',   placeholder:'Spend ($)' },
-            { type:'number', key:'result',  placeholder:'Result' },
-            { type:'text',   key:'notes',   placeholder:'Notes', full:true },
-            { type:'url',    key:'url',     placeholder:'Link (artifact, chat, doc…)', full:true },
+            { type:'text',   key:'effort',  label:'Effort name', full:true },
+            { type:'select', key:'channel', label:'Channel', options:CHANNELS },
+            { type:'select', key:'type',    label:'Type', options:TYPES },
+            { type:'select', key:'status',  label:'Status', options:Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
+            { type:'date',   key:'date',    label:'Date' },
+            { type:'number', key:'spend',   label:'Spend ($)' },
+            { type:'number', key:'result',  label:'Result' },
+            { type:'text',   key:'notes',   label:'Notes', full:true },
+            { type:'url',    key:'url',     label:'Link (artifact, chat, doc…)', full:true },
           ];
           fields.forEach(f => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'edit-field';
+            if (f.full) wrapper.style.gridColumn = '1 / -1';
+
+            const lbl = document.createElement('span');
+            lbl.className = 'edit-label';
+            lbl.textContent = f.label;
+            wrapper.appendChild(lbl);
+
             let el;
             if (f.type === 'select') {
               el = document.createElement('select');
@@ -811,11 +830,10 @@ function renderBoard() {
             } else {
               el = document.createElement('input');
               el.type = f.type; el.value = editForm[f.key] ?? '';
-              if (f.placeholder) el.placeholder = f.placeholder;
               el.addEventListener('input', () => { editForm[f.key] = el.value; });
             }
-            if (f.full) el.style.gridColumn = '1 / -1';
-            grid.appendChild(el);
+            wrapper.appendChild(el);
+            grid.appendChild(wrapper);
           });
 
           const acts = document.createElement('div');
