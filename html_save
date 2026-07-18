@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Save Form to Git JSON</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; max-width: 400px; }
+        .field { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 15px; background: #0284c7; color: white; border: none; cursor: pointer; }
+        #status { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>Submit Data to Git</h2>
+    
+    <form id="gitForm">
+        <div class="field">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="field">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit">Save to Git</button>
+    </form>
+
+    <div id="status"></div>
+
+    <script>
+        // CONFIGURATION
+        const TOKEN = "YOUR_GITHUB_TOKEN"; 
+        const OWNER = "YOUR_USERNAME";
+        const REPO = "YOUR_REPO_NAME";
+        const FILE_PATH = "data.json"; // Target file inside repository
+
+        document.getElementById('gitForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerText = "Processing...";
+            statusDiv.style.color = "black";
+
+            // 1. Gather form input into a JSON object
+            const formData = {
+                name: document.getElementById('name').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toISOString()
+            };
+
+            const apiUrl = `https://github.com{OWNER}/${REPO}/contents/${FILE_PATH}`;
+            const headers = {
+                "Authorization": `Bearer ${TOKEN}`,
+                "Accept": "application/vnd.github+json",
+                "Content-Type": "application/json"
+            };
+
+            try {
+                let sha = null;
+                let currentData = [];
+
+                // 2. Fetch the existing file content if it exists to append data
+                const getResponse = await fetch(apiUrl, { headers });
+                
+                if (getResponse.ok) {
+                    const fileInfo = await getResponse.json();
+                    sha = fileInfo.sha; // Required by GitHub API to update an existing file
+                    
+                    // Decode base64 file contents from GitHub
+                    const decodedContent = atob(fileInfo.content.replace(/\n/g, ''));
+                    currentData = JSON.parse(decodedContent);
+                    if (!Array.isArray(currentData)) currentData = [currentData];
+                }
+
+                // 3. Append the new form data payload
+                currentData.push(formData);
+                const updatedJsonString = JSON.stringify(currentData, null, 2);
+                
+                // 4. Encode the string content into UTF-8 base64
+                const base64Content = btoa(unescape(encodeURIComponent(updatedJsonString)));
+
+                // 5. Commit payload structure
+                const payload = {
+                    message: `Form submission by ${formData.name}`,
+                    content: base64Content
+                };
+                if (sha) payload.sha = sha; // Include SHA if updating file
+
+                // 6. Push updated JSON array back to the Git repository
+                const putResponse = await fetch(apiUrl, {
+                    method: "PUT",
+                    headers: headers,
+                    body: JSON.stringify(payload)
+                });
+
+                if (putResponse.ok) {
+                    statusDiv.innerText = "Successfully saved to Git!";
+                    statusDiv.style.color = "green";
+                    document.getElementById('gitForm').reset();
+                } else {
+                    const errData = await putResponse.json();
+                    statusDiv.innerText = `Error saving: ${errData.message}`;
+                    statusDiv.style.color = "red";
+                }
+
+            } catch (error) {
+                statusDiv.innerText = `Network Error: ${error.message}`;
+                statusDiv.style.color = "red";
+            }
+        });
+    </script>
+</body>
+</html>
