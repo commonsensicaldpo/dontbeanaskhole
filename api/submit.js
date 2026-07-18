@@ -14,8 +14,7 @@ export default async function handler(req, res) {
     'User-Agent': 'vercel-askhole-form',
     'Content-Type': 'application/json'
   };
-
-  const fileRes = await fetch(`${API}?ref=main`, { headers });
+  const fileRes = await fetch(`${API}?ref=gh-pages`, { headers });
   if (!fileRes.ok) return res.status(500).json({ error: 'Could not read data.json' });
 
   const file = await fileRes.json();
@@ -29,8 +28,8 @@ export default async function handler(req, res) {
       message: `Form submission – ${entry.email}`,
       content: Buffer.from(JSON.stringify(current, null, 2)).toString('base64'),
       sha: file.sha,
-      branch: 'main'
-    })
+      branch: 'gh-pages'
+})
   });
 
   if (!putRes.ok) {
