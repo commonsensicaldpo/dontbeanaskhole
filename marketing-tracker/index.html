@@ -609,7 +609,7 @@ const emptyForm = () => ({
   effort: "", channel: "LinkedIn", type: "Post",
   status: "not_started",
   date: new Date().toISOString().slice(0,10),
-  spend: "", result: "", notes: "", url: "",
+  spend: "", result: "", resultBasis: "", notes: "", url: "",
 });
 let form = emptyForm();
 
@@ -647,11 +647,11 @@ function makeBadge(channel) {
 // ── Render ───────────────────────────────────────────────────────────────────
 function renderSummary() {
   const counts = { not_started:0, in_progress:0, done:0 };
-  let totalSpend = 0, totalResult = 0;
+  let totalSpend = 0, resultCount = 0;
   entries.forEach(e => {
     counts[e.status]++;
-    totalSpend  += Number(e.spend)  || 0;
-    totalResult += Number(e.result) || 0;
+    totalSpend += Number(e.spend) || 0;
+    if ((Number(e.result) || 0) > 0) resultCount++;
   });
 
   const row = document.getElementById('summary-row');
@@ -661,7 +661,7 @@ function renderSummary() {
     { key:'in_progress', val: counts.in_progress, label: 'In progress' },
     { key:'done',        val: counts.done,         label: 'Done' },
     { key:'spend',       val: `$${totalSpend.toLocaleString()}`, label: 'Total spend', color:'#6B7280' },
-    { key:'result',      val: totalResult.toLocaleString(),      label: 'Total results', color:'#6B7280' },
+    { key:'result',      val: resultCount,                       label: 'With results', color:'#6B7280' },
   ].forEach(item => {
     const color = item.color || STATUS[item.key]?.color || '#6B7280';
     const card = document.createElement('div');
@@ -684,15 +684,16 @@ function renderForm() {
   grid.innerHTML = '';
 
   const fields = [
-    { type:'text',   key:'effort',  placeholder:'Effort name (e.g. LinkedIn spring post)', full:true },
-    { type:'select', key:'channel', options: CHANNELS },
-    { type:'select', key:'type',    options: TYPES },
-    { type:'select', key:'status',  options: Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
+    { type:'text',   key:'effort',      placeholder:'Effort name (e.g. LinkedIn spring post)', full:true },
+    { type:'select', key:'channel',     options: CHANNELS },
+    { type:'select', key:'type',        options: TYPES },
+    { type:'select', key:'status',      options: Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
     { type:'date',   key:'date' },
-    { type:'number', key:'spend',   placeholder:'Spend ($)' },
-    { type:'number', key:'result',  placeholder:'Result (clicks/leads/etc.)' },
-    { type:'text',   key:'notes',   placeholder:'Notes', full:true },
-    { type:'url',    key:'url',     placeholder:'Link (artifact, chat, doc…)', full:true },
+    { type:'number', key:'spend',       placeholder:'Spend ($)' },
+    { type:'number', key:'result',      placeholder:'Result amount' },
+    { type:'text',   key:'resultBasis', placeholder:'Unit (clicks, sales, $…)' },
+    { type:'text',   key:'notes',       placeholder:'Notes', full:true },
+    { type:'url',    key:'url',         placeholder:'Link (artifact, chat, doc…)', full:true },
   ];
 
   fields.forEach(f => {
@@ -795,15 +796,16 @@ function renderBoard() {
           grid.className = 'edit-form-grid';
 
           const fields = [
-            { type:'text',   key:'effort',  label:'Effort name', full:true },
-            { type:'select', key:'channel', label:'Channel', options:CHANNELS },
-            { type:'select', key:'type',    label:'Type', options:TYPES },
-            { type:'select', key:'status',  label:'Status', options:Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
-            { type:'date',   key:'date',    label:'Date' },
-            { type:'number', key:'spend',   label:'Spend ($)' },
-            { type:'number', key:'result',  label:'Result' },
-            { type:'text',   key:'notes',   label:'Notes', full:true },
-            { type:'url',    key:'url',     label:'Link (artifact, chat, doc…)', full:true },
+            { type:'text',   key:'effort',      label:'Effort name', full:true },
+            { type:'select', key:'channel',     label:'Channel', options:CHANNELS },
+            { type:'select', key:'type',        label:'Type', options:TYPES },
+            { type:'select', key:'status',      label:'Status', options:Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
+            { type:'date',   key:'date',        label:'Date' },
+            { type:'number', key:'spend',       label:'Spend ($)' },
+            { type:'number', key:'result',      label:'Result amount' },
+            { type:'text',   key:'resultBasis', label:'Result unit (clicks, sales, $…)' },
+            { type:'text',   key:'notes',       label:'Notes', full:true },
+            { type:'url',    key:'url',         label:'Link (artifact, chat, doc…)', full:true },
           ];
           fields.forEach(f => {
             const wrapper = document.createElement('div');
@@ -860,7 +862,8 @@ function renderBoard() {
           if (e.spend > 0 || e.result > 0) {
             const nums = document.createElement('div');
             nums.className = 'entry-nums';
-            nums.textContent = `$${Number(e.spend).toLocaleString()} spent → ${Number(e.result).toLocaleString()} results`;
+            const resultStr = Number(e.result).toLocaleString() + (e.resultBasis ? ' ' + e.resultBasis : '');
+            nums.textContent = `$${Number(e.spend).toLocaleString()} spent → ${resultStr}`;
             details.appendChild(nums);
           }
 
@@ -963,6 +966,7 @@ async function addEntry() {
     date: form.date,
     spend: Number(form.spend) || 0,
     result: Number(form.result) || 0,
+    resultBasis: (form.resultBasis || '').trim(),
     notes: form.notes.trim(),
     url: (form.url || '').trim(),
   };
@@ -1008,9 +1012,9 @@ async function saveEdit(id) {
     ts: Date.now(),
     spend: Number(editForm.spend) || 0,
     result: Number(editForm.result) || 0,
+    resultBasis: (editForm.resultBasis || '').trim(),
     effort: editForm.effort.trim(),
     notes: (editForm.notes || '').trim(),
-    url: (editForm.url || '').trim(),
   };
   setSaving('saving…');
   try {
