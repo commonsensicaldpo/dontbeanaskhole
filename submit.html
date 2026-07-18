@@ -117,51 +117,10 @@
 
 <script>
   // ── Configuration ────────────────────────────────────────────────────────────
-  // Paste your fine-grained GitHub token here (see README for setup steps).
-  // Scope needed: Contents → Read and write  (repo: commonsensicaldpo/dontbeanaskhole)
-  const GITHUB_TOKEN  = '';          // e.g. 'github_pat_...'
-  const GITHUB_OWNER  = 'commonsensicaldpo';
-  const GITHUB_REPO   = 'dontbeanaskhole';
-  const DATA_FILE     = 'data.json';
-  const BRANCH        = 'main';
+  // Replace this with your Cloudflare Worker URL after deploying it.
+  // The token lives in Cloudflare as an encrypted secret — never in this file.
+  const WORKER_URL = 'https://askhole-form.<your-subdomain>.workers.dev';
   // ─────────────────────────────────────────────────────────────────────────────
-
-  const API = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE}`;
-
-  async function getFile() {
-    const res = await fetch(`${API}?ref=${BRANCH}`, {
-      headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github+json' }
-    });
-    if (!res.ok) throw new Error(`GitHub read failed: ${res.status}`);
-    return res.json(); // { content, sha }
-  }
-
-  async function saveEntry(entry) {
-    const file   = await getFile();
-    const current = JSON.parse(atob(file.content.replace(/\n/g, '')));
-    current.push(entry);
-
-    const body = JSON.stringify({
-      message: `New form submission – ${entry.email}`,
-      content: btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2)))),
-      sha:     file.sha,
-      branch:  BRANCH
-    });
-
-    const res = await fetch(API, {
-      method:  'PUT',
-      headers: {
-        Authorization:  `Bearer ${GITHUB_TOKEN}`,
-        Accept:         'application/vnd.github+json',
-        'Content-Type': 'application/json'
-      },
-      body
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || `GitHub write failed: ${res.status}`);
-    }
-  }
 
   document.getElementById('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -170,17 +129,10 @@
     status.textContent = '';
     status.className   = '';
 
-    if (!GITHUB_TOKEN) {
-      status.textContent = 'Form not configured yet — token missing.';
-      status.className   = 'error';
-      return;
-    }
-
-    btn.disabled       = true;
-    btn.textContent    = 'Saving…';
+    btn.disabled    = true;
+    btn.textContent = 'Saving…';
 
     const entry = {
-      timestamp: new Date().toISOString(),
       name:      document.getElementById('name').value.trim(),
       email:     document.getElementById('email').value.trim(),
       archetype: document.getElementById('archetype').value,
@@ -188,8 +140,14 @@
     };
 
     try {
-      await saveEntry(entry);
-      status.textContent = 'You\'re in! Thanks for signing up.';
+      const res = await fetch(WORKER_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(entry)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `Worker error ${res.status}`);
+      status.textContent = "You're in! Thanks for signing up.";
       status.className   = 'success';
       e.target.reset();
     } catch (err) {
