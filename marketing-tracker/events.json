@@ -1,0 +1,38 @@
+[
+  {
+    "id": "qk2pv91z",
+    "ts": 1784290544999,
+    "effort": "Don't Be An Ask-hole — published",
+    "channel": "Amazon",
+    "type": "Published",
+    "status": "done",
+    "date": "2026-06-26",
+    "spend": 0,
+    "result": 0,
+    "notes": "Book published on Amazon."
+  },
+  {
+    "id": "fiyga74i",
+    "ts": 1784290545000,
+    "effort": "Don't Be An Ask-hole (boosted)",
+    "channel": "LinkedIn",
+    "type": "Post",
+    "status": "done",
+    "date": "2026-06-26",
+    "spend": 0,
+    "result": 14,
+    "notes": "Boosted post. 2,583 impressions, 1,616 members reached (26% in-network / 74% out-of-network). 3 reactions, 0 comments, 0 reposts, 0 saves. 14 link visits to Amazon book page. Boost spend not provided."
+  },
+  {
+    "id": "hgyh5myj",
+    "ts": 1784290545001,
+    "effort": "I need your help, I wrote a book (not boosted)",
+    "channel": "LinkedIn",
+    "type": "Post",
+    "status": "done",
+    "date": "2026-07-12",
+    "spend": 0,
+    "result": 6,
+    "notes": "Not boosted. 277 impressions, 157 members reached (94% in-network / 6% out-of-network). 31 profile viewers, 0 followers gained. 64 social engagements: 44 reactions, 17 comments, 2 reposts, 1 save. 6 link visits to Amazon book page."
+  }
+]
