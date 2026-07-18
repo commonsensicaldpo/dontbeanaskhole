@@ -9,5 +9,12 @@
   {
     "name": "Kathy",
     "email": "kathy@gmail.com"
+  },
+  {
+    "timestamp": "2026-07-18T15:30:00.000Z",
+    "name": "Test Submission",
+    "email": "test@dontbeanaskhole.com",
+    "archetype": "The Rhetorician",
+    "note": "This is a test entry submitted via the GitHub API."
   }
 ]
