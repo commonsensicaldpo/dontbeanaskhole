@@ -162,6 +162,18 @@ button { cursor: pointer; font-family: var(--font-body); }
 .edit-form-grid select option { background: var(--bg); }
 .edit-actions { display: flex; gap: 8px; justify-content: flex-end; }
 @media (max-width: 700px) { .edit-form-grid { grid-template-columns: 1fr; } }
+.entry-link {
+  font-size: 12px;
+  margin-top: 6px;
+}
+.entry-link a {
+  color: var(--accent);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  word-break: break-all;
+}
+.entry-link a:hover { text-decoration: underline; }
 
 /* Token setup panel */
 #token-panel {
@@ -587,7 +599,7 @@ const emptyForm = () => ({
   effort: "", channel: "LinkedIn", type: "Post",
   status: "not_started",
   date: new Date().toISOString().slice(0,10),
-  spend: "", result: "", notes: "",
+  spend: "", result: "", notes: "", url: "",
 });
 let form = emptyForm();
 
@@ -670,6 +682,7 @@ function renderForm() {
     { type:'number', key:'spend',   placeholder:'Spend ($)' },
     { type:'number', key:'result',  placeholder:'Result (clicks/leads/etc.)' },
     { type:'text',   key:'notes',   placeholder:'Notes', full:true },
+    { type:'url',    key:'url',     placeholder:'Link (artifact, chat, doc…)', full:true },
   ];
 
   fields.forEach(f => {
@@ -780,6 +793,7 @@ function renderBoard() {
             { type:'number', key:'spend',   placeholder:'Spend ($)' },
             { type:'number', key:'result',  placeholder:'Result' },
             { type:'text',   key:'notes',   placeholder:'Notes', full:true },
+            { type:'url',    key:'url',     placeholder:'Link (artifact, chat, doc…)', full:true },
           ];
           fields.forEach(f => {
             let el;
@@ -837,6 +851,18 @@ function renderBoard() {
             notes.className = 'entry-notes';
             notes.textContent = e.notes;
             details.appendChild(notes);
+          }
+
+          if (e.url) {
+            const linkDiv = document.createElement('div');
+            linkDiv.className = 'entry-link';
+            const a = document.createElement('a');
+            a.href = e.url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.textContent = '↗ ' + e.url.replace(/^https?:\/\//, '').split('/').slice(0,4).join('/') + (e.url.split('/').length > 4 ? '/…' : '');
+            linkDiv.appendChild(a);
+            details.appendChild(linkDiv);
           }
 
           const actions = document.createElement('div');
@@ -920,6 +946,7 @@ async function addEntry() {
     spend: Number(form.spend) || 0,
     result: Number(form.result) || 0,
     notes: form.notes.trim(),
+    url: (form.url || '').trim(),
   };
   setSaving('saving…');
   try {
@@ -965,6 +992,7 @@ async function saveEdit(id) {
     result: Number(editForm.result) || 0,
     effort: editForm.effort.trim(),
     notes: (editForm.notes || '').trim(),
+    url: (editForm.url || '').trim(),
   };
   setSaving('saving…');
   try {
