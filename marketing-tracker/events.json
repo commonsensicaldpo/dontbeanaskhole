@@ -2,7 +2,7 @@
   {
     "id": "qk2pv91z",
     "ts": 1784290544999,
-    "effort": "Don't Be An Ask-hole Ã¢ÂÂ published",
+    "effort": "Don't Be An Ask-hole ÃÂ¢ÃÂÃÂ published",
     "channel": "Amazon",
     "type": "Published",
     "status": "done",
@@ -41,7 +41,7 @@
   {
     "id": "qz8bui12",
     "ts": 1780272000000,
-    "effort": "Quiz Ã¢ÂÂ Which Ask-Hole Are You? (+ scored version)",
+    "effort": "Quiz ÃÂ¢ÃÂÃÂ Which Ask-Hole Are You? (+ scored version)",
     "channel": "Other",
     "type": "Other",
     "status": "done",
@@ -67,7 +67,7 @@
   {
     "id": "rdt5cm8d",
     "ts": 1781481601000,
-    "effort": "Reddit Ã¢ÂÂ r/dontbeanaskhole community created",
+    "effort": "Reddit ÃÂ¢ÃÂÃÂ r/dontbeanaskhole community created",
     "channel": "Reddit",
     "type": "Other",
     "status": "done",
@@ -80,7 +80,7 @@
   {
     "id": "amz4xd7b",
     "ts": 1782864000000,
-    "effort": "Amazon Ads Ã¢ÂÂ Sponsored Display campaign",
+    "effort": "Amazon Ads ÃÂ¢ÃÂÃÂ Sponsored Display campaign",
     "channel": "Amazon",
     "type": "Listing",
     "status": "done",
@@ -93,7 +93,7 @@
   {
     "id": "kdp7fre3",
     "ts": 1782864001000,
-    "effort": "Amazon KDP Select Ã¢ÂÂ Free Kindle promotion",
+    "effort": "Amazon KDP Select ÃÂ¢ÃÂÃÂ Free Kindle promotion",
     "channel": "Amazon",
     "type": "Other",
     "status": "done",
@@ -106,7 +106,7 @@
   {
     "id": "grd2pg6c",
     "ts": 1782864002000,
-    "effort": "Goodreads Ã¢ÂÂ Author page + intro post + Post #1 (Serial Advice Seeker)",
+    "effort": "Goodreads ÃÂ¢ÃÂÃÂ Author page + intro post + Post #1 (Serial Advice Seeker)",
     "channel": "Goodreads",
     "type": "Post",
     "status": "done",
@@ -119,7 +119,7 @@
   {
     "id": "cvn3bge1",
     "ts": 1782864003000,
-    "effort": "Canva Pro Ã¢ÂÂ Archetype badge #1 (SVG mockup)",
+    "effort": "Canva Pro ÃÂ¢ÃÂÃÂ Archetype badge #1 (SVG mockup)",
     "channel": "Other",
     "type": "Other",
     "status": "done",
@@ -153,6 +153,19 @@
     "spend": 0,
     "result": 14,
     "notes": "Boosted post. 2,583 impressions, 1,616 members reached (26% in-network / 74% out-of-network). 3 reactions, 0 comments, 0 reposts, 0 saves. 14 link visits to Amazon book page. Boost spend not provided.",
+    "url": ""
+  },
+  {
+    "id": "qk2pv91z",
+    "ts": 1784410454109,
+    "effort": "Published Askhole",
+    "channel": "Amazon",
+    "type": "Published",
+    "status": "done",
+    "date": "2026-06-26",
+    "spend": 0,
+    "result": 0,
+    "notes": "Softcover Book, ebook, and audio book published on Amazon.",
     "url": ""
   }
 ]
