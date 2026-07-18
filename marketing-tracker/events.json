@@ -2,7 +2,7 @@
   {
     "id": "qk2pv91z",
     "ts": 1784290544999,
-    "effort": "Don't Be An Ask-hole — published",
+    "effort": "Don't Be An Ask-hole â published",
     "channel": "Amazon",
     "type": "Published",
     "status": "done",
@@ -41,7 +41,7 @@
   {
     "id": "qz8bui12",
     "ts": 1780272000000,
-    "effort": "Quiz — Which Ask-Hole Are You? (+ scored version)",
+    "effort": "Quiz â Which Ask-Hole Are You? (+ scored version)",
     "channel": "Other",
     "type": "Other",
     "status": "done",
@@ -67,7 +67,7 @@
   {
     "id": "rdt5cm8d",
     "ts": 1781481601000,
-    "effort": "Reddit — r/dontbeanaskhole community created",
+    "effort": "Reddit â r/dontbeanaskhole community created",
     "channel": "Reddit",
     "type": "Other",
     "status": "done",
@@ -80,7 +80,7 @@
   {
     "id": "amz4xd7b",
     "ts": 1782864000000,
-    "effort": "Amazon Ads — Sponsored Display campaign",
+    "effort": "Amazon Ads â Sponsored Display campaign",
     "channel": "Amazon",
     "type": "Listing",
     "status": "done",
@@ -93,7 +93,7 @@
   {
     "id": "kdp7fre3",
     "ts": 1782864001000,
-    "effort": "Amazon KDP Select — Free Kindle promotion",
+    "effort": "Amazon KDP Select â Free Kindle promotion",
     "channel": "Amazon",
     "type": "Other",
     "status": "done",
@@ -106,7 +106,7 @@
   {
     "id": "grd2pg6c",
     "ts": 1782864002000,
-    "effort": "Goodreads — Author page + intro post + Post #1 (Serial Advice Seeker)",
+    "effort": "Goodreads â Author page + intro post + Post #1 (Serial Advice Seeker)",
     "channel": "Goodreads",
     "type": "Post",
     "status": "done",
@@ -119,7 +119,7 @@
   {
     "id": "cvn3bge1",
     "ts": 1782864003000,
-    "effort": "Canva Pro — Archetype badge #1 (SVG mockup)",
+    "effort": "Canva Pro â Archetype badge #1 (SVG mockup)",
     "channel": "Other",
     "type": "Other",
     "status": "done",
@@ -127,6 +127,19 @@
     "spend": 0,
     "result": 0,
     "notes": "1 of 13 archetype badges. SVG mockup complete.",
+    "url": ""
+  },
+  {
+    "id": "qk2pv91z",
+    "ts": 1784410179608,
+    "effort": "Published Askhole",
+    "channel": "Amazon",
+    "type": "Published",
+    "status": "done",
+    "date": "2026-06-26",
+    "spend": 0,
+    "result": 0,
+    "notes": "Softcover Book, ebook, and audio book published on Amazon.",
     "url": ""
   }
 ]
