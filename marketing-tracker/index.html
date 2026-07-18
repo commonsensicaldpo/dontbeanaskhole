@@ -111,6 +111,57 @@ button { cursor: pointer; font-family: var(--font-body); }
   padding: 2px;
   display: flex;
 }
+.btn-edit {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+}
+.btn-edit:hover { border-color: var(--accent); color: var(--accent); }
+.btn-cancel {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+}
+.btn-save-edit {
+  background: var(--done);
+  color: #14181F;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.edit-form { padding: 10px 12px 12px; border-top: 1px solid var(--border); }
+.edit-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.edit-form-grid input,
+.edit-form-grid select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 9px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 12px;
+  outline: none;
+  width: 100%;
+}
+.edit-form-grid select option { background: var(--bg); }
+.edit-actions { display: flex; gap: 8px; justify-content: flex-end; }
+@media (max-width: 700px) { .edit-form-grid { grid-template-columns: 1fr; } }
 
 /* Token setup panel */
 #token-panel {
@@ -530,6 +581,8 @@ let allEvents  = [];
 let entries    = [];
 let expanded   = {};
 let showForm   = false;
+let editingId  = null;
+let editForm   = {};
 
 const emptyForm = () => ({
   effort: "", channel: "LinkedIn", type: "Post",
@@ -705,59 +758,118 @@ function renderBoard() {
 
       headerBtn.append(iconPair, name, dateTag, chev);
       headerBtn.addEventListener('click', () => {
+        if (editingId === e.id) editingId = null;
         expanded[e.id] = !expanded[e.id];
         renderAll();
       });
       card.appendChild(headerBtn);
 
       if (expanded[e.id]) {
-        const details = document.createElement('div');
-        details.className = 'entry-details';
+        if (editingId === e.id) {
+          // ── Edit form ──────────────────────────────────────────────────────
+          const ef = document.createElement('div');
+          ef.className = 'edit-form';
+          const grid = document.createElement('div');
+          grid.className = 'edit-form-grid';
 
-        const meta = document.createElement('div');
-        meta.className = 'entry-meta';
-        meta.innerHTML = `
-          <span>${e.channel}</span>
-          <span class="meta-dot">·</span>
-          <span>${e.type}</span>
-          <span class="meta-dot">·</span>
-          <span>${fmtDate(e.date)}</span>
-        `;
-        details.appendChild(meta);
+          const fields = [
+            { type:'text',   key:'effort',  placeholder:'Effort name', full:true },
+            { type:'select', key:'channel', options:CHANNELS },
+            { type:'select', key:'type',    options:TYPES },
+            { type:'select', key:'status',  options:Object.entries(STATUS).map(([v,s])=>({v,l:s.label})) },
+            { type:'date',   key:'date' },
+            { type:'number', key:'spend',   placeholder:'Spend ($)' },
+            { type:'number', key:'result',  placeholder:'Result' },
+            { type:'text',   key:'notes',   placeholder:'Notes', full:true },
+          ];
+          fields.forEach(f => {
+            let el;
+            if (f.type === 'select') {
+              el = document.createElement('select');
+              const isStr = typeof f.options[0] === 'string';
+              f.options.forEach(o => {
+                const opt = document.createElement('option');
+                opt.value = isStr ? o : o.v; opt.textContent = isStr ? o : o.l;
+                if ((isStr ? o : o.v) === editForm[f.key]) opt.selected = true;
+                el.appendChild(opt);
+              });
+              el.addEventListener('change', () => { editForm[f.key] = el.value; });
+            } else {
+              el = document.createElement('input');
+              el.type = f.type; el.value = editForm[f.key] ?? '';
+              if (f.placeholder) el.placeholder = f.placeholder;
+              el.addEventListener('input', () => { editForm[f.key] = el.value; });
+            }
+            if (f.full) el.style.gridColumn = '1 / -1';
+            grid.appendChild(el);
+          });
 
-        if (e.spend > 0 || e.result > 0) {
-          const nums = document.createElement('div');
-          nums.className = 'entry-nums';
-          nums.textContent = `$${Number(e.spend).toLocaleString()} spent → ${Number(e.result).toLocaleString()} results`;
-          details.appendChild(nums);
+          const acts = document.createElement('div');
+          acts.className = 'edit-actions';
+          const cancelBtn = document.createElement('button');
+          cancelBtn.className = 'btn-cancel'; cancelBtn.textContent = 'cancel';
+          cancelBtn.addEventListener('click', () => { editingId = null; renderAll(); });
+          const saveBtn = document.createElement('button');
+          saveBtn.className = 'btn-save-edit'; saveBtn.textContent = 'Save';
+          saveBtn.addEventListener('click', () => saveEdit(e.id));
+          acts.append(cancelBtn, saveBtn);
+          ef.append(grid, acts);
+          card.appendChild(ef);
+
+        } else {
+          // ── Detail view ────────────────────────────────────────────────────
+          const details = document.createElement('div');
+          details.className = 'entry-details';
+
+          const meta = document.createElement('div');
+          meta.className = 'entry-meta';
+          meta.innerHTML = `<span>${e.channel}</span><span class="meta-dot">·</span><span>${e.type}</span><span class="meta-dot">·</span><span>${fmtDate(e.date)}</span>`;
+          details.appendChild(meta);
+
+          if (e.spend > 0 || e.result > 0) {
+            const nums = document.createElement('div');
+            nums.className = 'entry-nums';
+            nums.textContent = `$${Number(e.spend).toLocaleString()} spent → ${Number(e.result).toLocaleString()} results`;
+            details.appendChild(nums);
+          }
+
+          if (e.notes) {
+            const notes = document.createElement('div');
+            notes.className = 'entry-notes';
+            notes.textContent = e.notes;
+            details.appendChild(notes);
+          }
+
+          const actions = document.createElement('div');
+          actions.className = 'entry-actions';
+
+          const leftBtns = document.createElement('div');
+          leftBtns.style.cssText = 'display:flex;gap:6px;align-items:center;';
+
+          const advanceBtn = document.createElement('button');
+          advanceBtn.className = 'btn-advance';
+          advanceBtn.style.color = STATUS[status].color;
+          advanceBtn.style.borderColor = STATUS[status].color;
+          advanceBtn.textContent = 'advance status →';
+          advanceBtn.addEventListener('click', () => cycleStatus(e.id));
+
+          const editBtn = document.createElement('button');
+          editBtn.className = 'btn-edit';
+          editBtn.textContent = 'edit';
+          editBtn.addEventListener('click', () => { editingId = e.id; editForm = {...e}; renderAll(); });
+
+          leftBtns.append(advanceBtn, editBtn);
+
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'btn-remove';
+          removeBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+          removeBtn.title = 'Remove entry';
+          removeBtn.addEventListener('click', () => removeEntry(e.id));
+
+          actions.append(leftBtns, removeBtn);
+          details.appendChild(actions);
+          card.appendChild(details);
         }
-
-        if (e.notes) {
-          const notes = document.createElement('div');
-          notes.className = 'entry-notes';
-          notes.textContent = e.notes;
-          details.appendChild(notes);
-        }
-
-        const actions = document.createElement('div');
-        actions.className = 'entry-actions';
-
-        const advanceBtn = document.createElement('button');
-        advanceBtn.className = 'btn-advance';
-        advanceBtn.style.color = STATUS[status].color;
-        advanceBtn.style.borderColor = STATUS[status].color;
-        advanceBtn.textContent = 'advance status →';
-        advanceBtn.addEventListener('click', () => cycleStatus(e.id));
-
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'btn-remove';
-        removeBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
-        removeBtn.title = 'Remove entry';
-        removeBtn.addEventListener('click', () => removeEntry(e.id));
-
-        actions.append(advanceBtn, removeBtn);
-        details.appendChild(actions);
-        card.appendChild(details);
       }
 
       col.appendChild(card);
@@ -842,6 +954,28 @@ async function cycleStatus(id) {
     showError(err.message);
     setSaving('');
   }
+}
+
+async function saveEdit(id) {
+  if (!editForm.effort || !editForm.effort.trim()) return;
+  const event = {
+    ...editForm,
+    id,
+    ts: Date.now(),
+    spend: Number(editForm.spend) || 0,
+    result: Number(editForm.result) || 0,
+    effort: editForm.effort.trim(),
+    notes: (editForm.notes || '').trim(),
+  };
+  setSaving('saving…');
+  try {
+    allEvents = await appendEvent(event);
+    entries   = reconcile(allEvents);
+    editingId = null;
+    renderAll();
+    setSaving('saved ✓');
+    setTimeout(() => setSaving(''), 2000);
+  } catch(err) { showError(err.message); setSaving(''); }
 }
 
 async function removeEntry(id) {
